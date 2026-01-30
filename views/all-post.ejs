@@ -1,9 +1,13 @@
 <%- include("partials/header.ejs") %>
 <h2>Post From Users</h2>
-<div class="all-posts">
-    <p><%= Posts["name"] %></p>
-    <p><%= Posts["email"] %></p>
-    <p><%= Posts["favorite_fruit"] %></p>
+<div class="articles">
+    <% for( let index = 0; index < Posts.length; index++ ) { %>
+        <p><%= Posts[index]['name'] %></p>
+        <p><%= Posts[index]['email'] %></p>
+        <p><%= Posts[index]['favorite_fruit'] %></p>
+        <hr>
+    
+    <% } %>
 
 </div>
 

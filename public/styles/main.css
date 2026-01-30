@@ -21,6 +21,13 @@ body{
   margin-top: 25px;
   margin-bottom: 20px;
   font-size: large;
+  font-family: "Titan One", cursive;
+
+}
+
+.title p:hover {
+  color: rgb(88 199 250 / 100%);
+  transition: color 1s;
 }
 .nav-bar{
   position: absolute;
@@ -83,6 +90,12 @@ img{
 #comment{
   color:coral;
   letter-spacing: 1px;
+}
+
+/* ALL POST */
+.article {
+  column-count: 3;
+  column-gap: 24px;
 }
 
 
