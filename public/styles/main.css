@@ -58,14 +58,21 @@ img{
     width: 700px;
     display: block;
     margin: 0 auto;
+    border-radius: 10px;
 
 }
 
 /* Footer Page */
-.post-nav-bar ul li{
-  margin-top: 10px;
+.post-nav-bar ul{
+  list-style-type: none;
+  margin:0;
+  padding:0;
   text-align: center;
-  list-style: none;
+}
+
+.post-nav-bar ul li {
+  display: inline-block;
+  margin: 0 15px;
 }
 
 .footer {
@@ -74,13 +81,48 @@ img{
 }
 
 #comment{
-  color: black;
+  color:coral;
   letter-spacing: 1px;
 }
 
 
 /* Contact Page */
 form {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+label {display: block;}
+
+input[type=text], select {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color:orange;
+  color: white;
+  padding: 14px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+
+
+/* form {
   margin-top: 50px;
 }
 
@@ -95,7 +137,7 @@ form {
   transition: all 0.3s;
   padding: 13px;
   margin-bottom: 15px;
-  width: 100%;
+  width: 50%;
   box-sizing: border-box;
   outline: 0;
 }
@@ -125,4 +167,4 @@ textarea {
 }
 [type="submit"]:hover {
   background: #3586ff;
-}
+} */
