@@ -1,12 +1,12 @@
 <%- include("partials/header.ejs") %>
 
-<form action="/update" method="post">
-    <input type="text" name="name" placeholder="name" class="feedback-input">
-    <input type="text" name="email" placeholder="email"class="feedback-input" >
-    <input type="text" name="favorite-fruit" placeholder="favorite fruit" class="feedback-input">
+<form action="/api/posts/edit/<%=post.id%>" method="post">
+    <input type="text" name="name" placeholder="name" class="feedback-input" value="<%=post.name%>">
+    <input type="text" name="email" placeholder="email"class="feedback-input" value="<%=post.email%>">
+    <input type="text" name="favorite_fruit" placeholder="favorite fruit" class="feedback-input" value="<%=post.favorite_fruit%>">
     <input type="submit" value="Submit"> 
 </form>
 
 
 
-<%- include("partials/footer.ejs") %>   
+<%- include("partials/footer.ejs") %>     

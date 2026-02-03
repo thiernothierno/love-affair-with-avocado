@@ -1,27 +1,16 @@
 <%- include("partials/header.ejs") %>
    
     <div class="articles">
-        <% for( let index=0; index < posts.length; index++ ) { %>
-            <p>
-                <%= posts[index]['name'] %>
-            </p>
-            <p>
-                <%= posts[index]['email'] %>
-            </p>
-            <p>
-                <%= posts[index]['favorite_fruit'] %>
-            </p>
-            <p>
-                <%= posts[index]['date'] %>
-            </p>
-            <a class="edit" href="">Edit</a> 
-            <a class="delete" href="">Delete</a>  
-            <hr>
-
-            <% } %>
-
+            <% posts.forEach(post => { %>
+                <h3><%= post['name'] %></h3>
+                <h3><%= post.email %></h3>
+                <h3><%= post.favorite-fruit %></h3>
+                <h3><%= post.date %></h3>
+                <a class="edit" href="">Edit</a> 
+                <a class="delete" href="">Delete</a>  
+                <hr>
+            <% }) %>
     </div>
-
 
 
     <%- include("partials/footer.ejs") %>

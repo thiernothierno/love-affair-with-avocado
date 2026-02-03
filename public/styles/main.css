@@ -51,7 +51,7 @@ a {
 }
 
  a:hover{
-  color: red;
+  color:black;
 }
 
 .sub-title {
@@ -98,6 +98,16 @@ img{
   column-gap: 24px;
 }
 
+.edit {
+  background-color: blue;
+  padding:5px;
+}
+
+
+.delete {
+  background-color: red;
+  padding: 5px;
+}
 
 /* Contact Page */
 form {

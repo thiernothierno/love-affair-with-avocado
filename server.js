@@ -50,7 +50,7 @@ app.get("/create-post", (req, res) => {
 
 app.post("/api/posts", async(req, res) => {
     try{
-    const response = await axios.post(`${API_URL}/posts`);
+    const response = await axios.post(`${API_URL}/posts`, req.body);
     console.log(response.data)
     res.redirect("/");
     } catch(error){
@@ -59,6 +59,38 @@ app.post("/api/posts", async(req, res) => {
 })
 
 
+// Edit a post
+app.get("/edit/:id", async(req, res) => {
+    try{
+        const response = await axios.get(`${API_URL}/posts/${req.params.id}`);
+        res.render("/edit.ejs", {post : response.data});
+
+    }catch(error){
+        res.status(404).json({message : "Error updating post"})
+    }
+})
+
+app.post("/api/posts/edit/:id", async(req, res) => {
+    try{
+    const response = await axios.patch(`${API_URL}/posts/${req.params.id}`, req.body);
+    console.log(response.data)
+    res.redirect("/")
+    } catch(error){
+        res.status(500).json({message: "Error updating post"})
+    }
+})
+
+
+// delete post
+
+app.get("/api/posts/delete/:id", async(req, res) => {
+    try{
+        const response = await axios.delete(`${API_URL}/posts/${req.params.id}`);
+        res.redirect("/");
+    }catch(error){
+        res.status(500).json({message : "Error deleting post"})
+    }
+})
 
 app.listen(port, () => {
     console.log(`Backend Server Running on http://localhost:${port}`)

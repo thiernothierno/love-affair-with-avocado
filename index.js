@@ -70,9 +70,9 @@ const posts = [
 ];
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));  
+app.use(express.json());
 
-
-let currentID = 0;
+let currentID = 1;
 
 // Get all post
 app.get("/posts", (req, res) => {
@@ -86,7 +86,7 @@ app.post("/posts", (req, res) => {
     const data = req.body;
     const new_post = {
         id : newID,
-        name : data['name'],
+        name : data.name,
         email : data.email,
         favorite_fruit : data.favorite_fruit,
         date : new Date(),
@@ -94,8 +94,39 @@ app.post("/posts", (req, res) => {
 
     currentID = newID;
     posts.push(new_post)
+    console.log(posts)
     res.status(201).json(new_post)
+
 })
+
+// Update a post 
+app.patch("/api/posts/:id", (req, res) => {
+    const userID = parseInt(req.params.id);
+    const data = posts.find((post) => post.id === userID);
+    if(!data) return res.status(404).json({message:"Post not found"});
+
+    if(req.body.name) data.name = req.body.name;
+    if(req.body.email) data.email = req.body.email;
+    if(req.body.favorite_fruit) data.favorite_fruit = req.body.favorite_fruit;
+    res.json(data);
+})
+
+
+// Delete a post
+app.delete("/posts/:id", (req, res) => {
+    const userID = parseInt(req.params.id);
+    const searchIndex = posts.findIndex((post) => post.id === userID);
+    if(searchIndex === -1) return res.status(404).json({message : "Post not found."})
+    posts.splice(searchIndex, 1);
+    res.json({message : `Post with ID: ${userID} was successfully deleted.`})
+})
+
+
+
+
+
+
+
 
 
 // app.get("/get-posts", (req, res) =>{
