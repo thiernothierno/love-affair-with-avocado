@@ -1,17 +1,27 @@
 <%- include("partials/header.ejs") %>
-<h2>Post From Users</h2>
-<div class="articles">
-    <% for( let index = 0; index < Posts.length; index++ ) { %>
-        <p><%= Posts[index]['name'] %></p>
-        <p><%= Posts[index]['email'] %></p>
-        <p><%= Posts[index]['favorite_fruit'] %></p>
-        <hr>
-    
-    <% } %>
+   
+    <div class="articles">
+        <% for( let index=0; index < posts.length; index++ ) { %>
+            <p>
+                <%= posts[index]['name'] %>
+            </p>
+            <p>
+                <%= posts[index]['email'] %>
+            </p>
+            <p>
+                <%= posts[index]['favorite_fruit'] %>
+            </p>
+            <p>
+                <%= posts[index]['date'] %>
+            </p>
+            <a class="edit" href="">Edit</a> 
+            <a class="delete" href="">Delete</a>  
+            <hr>
 
-</div>
+            <% } %>
+
+    </div>
 
 
 
-
-<%- include("partials/footer.ejs") %>
+    <%- include("partials/footer.ejs") %>

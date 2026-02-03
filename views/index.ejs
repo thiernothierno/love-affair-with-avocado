@@ -2,4 +2,26 @@
 
 <img src="/images/Avocados.jpg" alt="Avocado profile">
 
-<%- include("partials/footer.ejs") %> 
+    <div class="articles">
+        <% for( let index=0; index < posts.length; index++ ) { %>
+            <p>
+                <%= posts[index]['name'] %>
+            </p>
+            <p>
+                <%= posts[index]['email'] %>
+            </p>
+            <p>
+                <%= posts[index]['favorite_fruit'] %>
+            </p>
+            <p>
+                <%= posts[index]['date'] %>
+            </p>
+            <a class="edit" href="">Edit</a> 
+            <a class="delete" href="">Delete</a>  
+            <hr>
+
+            <% } %>
+
+    </div>
+
+<%- include("partials/footer.ejs") %>      
