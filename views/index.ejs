@@ -1,17 +1,6 @@
 <%- include("partials/header.ejs") %>
 
 <img src="/images/Avocados.jpg" alt="Avocado profile">
-<div class="articles">
-            <% posts.forEach(post => { %>
-                <h3><%= post.name %></h3>
-                <h3><%= post.email %></h3>
-                <h3><%= post.favorite_fruit %></h3>
-                <h3><%= post.date %></h3>
-                <a class="edit" href="/edit/<%=post.id%>">Edit</a>
-                <a class="delete" href="/api/posts/delete/<%=post.id %>">Delete</a>  
-                <hr>
-            <% }) %>
-    </div>
 
 
 <%- include("partials/footer.ejs") %>      

@@ -107,6 +107,19 @@ img{
 .delete {
   background-color: red;
   padding: 5px;
+  margin-left:10px;
+}
+
+table, th, td {
+  border: 1px solid white;
+  border-collapse: collapse;
+}
+
+
+/* About Page */
+
+.about-page p {
+  text-indent: 50px;
 }
 
 /* Contact Page */

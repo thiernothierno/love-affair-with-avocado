@@ -22,16 +22,17 @@ app.get("/", async(req, res) => {
     }
 })
 
-// // All Post 
-// app.get("/get-posts", async(req, res) => {
-//     try{
-//         const response = await axios.get(`${API_URL}/posts`);
-//         console.log(response.data)
-//         res.render("all-post.ejs", {posts : response.data});
-//     } catch(error){
-//          res.status(500).json({message:"No Post Found"})
-//     }
-// })
+// All posts 
+
+app.get("/get-all-posts", async(req, res) => {
+    try {
+        const response = await axios.get(`${API_URL}/posts`);
+        res.render("all-post.ejs", {posts : response.data})
+
+    } catch(error){
+        res.status(500).json({message:"Error fetching data"});
+    }
+})
 
 // Route to render the About page
 app.get("/about", (req, res) =>{ 
@@ -52,7 +53,7 @@ app.post("/api/posts", async(req, res) => {
     try{
     const response = await axios.post(`${API_URL}/posts`, req.body);
     console.log(response.data)
-    res.redirect("/");
+    res.redirect("/get-all-posts");
     } catch(error){
         res.status(500).json({message:"Error creating post."})
     }
@@ -66,15 +67,15 @@ app.get("/edit/:id", async(req, res) => {
         res.render("/edit.ejs", {post : response.data});
 
     }catch(error){
-        res.status(404).json({message : "Error updating post"})
+        res.status(500).json({message : "Error updating post"})
     }
 })
 
-app.post("/api/posts/edit/:id", async(req, res) => {
+app.post("/posts/edit/:id", async(req, res) => {
     try{
     const response = await axios.patch(`${API_URL}/posts/${req.params.id}`, req.body);
     console.log(response.data)
-    res.redirect("/")
+    res.redirect("/get-all-posts")
     } catch(error){
         res.status(500).json({message: "Error updating post"})
     }
@@ -82,11 +83,10 @@ app.post("/api/posts/edit/:id", async(req, res) => {
 
 
 // delete post
-
 app.get("/api/posts/delete/:id", async(req, res) => {
     try{
         const response = await axios.delete(`${API_URL}/posts/${req.params.id}`);
-        res.redirect("/");
+        res.redirect("/get-all-posts");
     }catch(error){
         res.status(500).json({message : "Error deleting post"})
     }

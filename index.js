@@ -65,6 +65,7 @@ const posts = [
         'name' : "Hady", 
         "email" : "thrndicko@gmail.com",
         "favorite_fruit" : "avocado",
+        "text" : "I love avocado because of it taste.",
         "date" : new Date(),
     }
 ];
@@ -89,6 +90,7 @@ app.post("/posts", (req, res) => {
         name : data.name,
         email : data.email,
         favorite_fruit : data.favorite_fruit,
+        text : data.text,
         date : new Date(),
     }
 
@@ -100,7 +102,7 @@ app.post("/posts", (req, res) => {
 })
 
 // Update a post 
-app.patch("/api/posts/:id", (req, res) => {
+app.patch("/posts/:id", (req, res) => {
     const userID = parseInt(req.params.id);
     const data = posts.find((post) => post.id === userID);
     if(!data) return res.status(404).json({message:"Post not found"});
