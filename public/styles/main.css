@@ -111,10 +111,21 @@ img{
 }
 
 table, th, td {
-  border: 1px solid white;
+  border: 1px solid black;
   border-collapse: collapse;
+  background-color: white;
 }
 
+th, td {
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+.post-table h2 {
+  color:#45a049;
+}
 
 /* About Page */
 

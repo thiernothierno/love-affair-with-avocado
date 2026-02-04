@@ -2,35 +2,40 @@
    
    <div class="articles">
          <% posts.forEach(post => { %>
-           <table>
+        <a class="edit" href="/edit/<%=post.id%>">Edit</a>
+        <a class="delete" href="/api/posts/delete/<%=post.id %>">Delete</a>  
+           <table style="width: 40%;" class="post-table">
                 <tr>
                     <th rowspan="2">
-                        <h3><%= post.name %></h3>
+                        <h2>Name:</h2>
+                        <h4><%= post.name %></h4>
                     </th>
                     <th>
-                        <h3><%= post.email %></h3>
+                        <h2>Email:</h2>
+                        <h4><%= post.email %></h4>
                     </th>
                     <th>
-                        <h3><%= post.favorite_fruit %></h3>
+                        <h2>Favorite Fruit</h2>
+                        <h4><%= post.favorite_fruit %></h4>
                     </th>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <h3><%= post.text %></h3>
+                        <h2>Comment:</h2>
+                        <h4><%= post.text %></h4>
                     </td>
                     
                 </tr>
                     
                 <tr>
                     <td colspan="3">
-                        <h3><%= post.date %></h3>
+                        <h2>Date:</h2>
+                        <h4><%= post.date %></h4>
                     </td>
                 </tr>
         </table>
-                    <a class="edit" href="/edit/<%=post.id%>">Edit</a>
-                    <a class="delete" href="/api/posts/delete/<%=post.id %>">Delete</a>  
-    
-                
+        <br>
+      
         <% }) %>
            
     </div>
