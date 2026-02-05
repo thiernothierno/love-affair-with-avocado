@@ -7,25 +7,27 @@
            <table style="width: 40%;" class="post-table">
                 <tr>
                     <th rowspan="2">
-                        <h2>Name:</h2>
-                        <h4><%= post.name %></h4>
+                        <h3>Name:</h3>
+                        <h4><%= post.name %></h4> 
+                        <h4><small><%= post.date %></small></h4>
                     </th>
                     <th>
-                        <h2>Email:</h2>
-                        <h4><%= post.email %></h4>
+                        <h3>Email:</h3>
+                        <h4><small><%= post.email %></small></h4>
                     </th>
                     <th>
-                        <h2>Favorite Fruit</h2>
-                        <h4><%= post.favorite_fruit %></h4>
+                        <h3>Favorite Fruit:</h3>
+                        <h4><small><%= post.favorite_fruit %></small></h4>
                     </th>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <h4><%= post.text %></h4>
+                        <h3>Comment:</h3>
+                        <h4><small><%= post.text %></small></h4>
                     </td>          
                 </tr>
         </table>
-        <h4><%= post.date %></h4>
+        
         <br>
       
         <% }) %>

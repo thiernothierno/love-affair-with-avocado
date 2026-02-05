@@ -70,7 +70,7 @@ const posts = [
     }
 ];
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }));  
+app.use(bodyParser.urlencoded({ extended: true }));    
 app.use(express.json());
 
 let currentID = 1;
@@ -97,7 +97,7 @@ app.post("/posts", (req, res) => {
     currentID = newID;
     posts.push(new_post)
     console.log(posts)
-    res.status(201).json(new_post)
+    res.status(201).json(new_post)  
 
 })
 

@@ -23,7 +23,6 @@ app.get("/", async(req, res) => {
 })
 
 // All posts 
-
 app.get("/get-all-posts", async(req, res) => {
     try {
         const response = await axios.get(`${API_URL}/posts`);
@@ -46,7 +45,7 @@ app.get("/contact", (req, res) =>{
 
 // Create a post 
 app.get("/create-post", (req, res) => {
-    res.render("post.ejs")
+    res.render("post.ejs")  
 })
 
 app.post("/api/posts", async(req, res) => {
