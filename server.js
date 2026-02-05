@@ -50,7 +50,7 @@ app.get("/create-post", (req, res) => {
 
 app.post("/api/posts", async(req, res) => {
     try{
-    const response = await axios.post(`${API_URL}/posts`, req.body);
+    const response = await axios.post(`${API_URL}/posts`, req.body);  
     console.log(response.data)
     res.redirect("/get-all-posts");
     } catch(error){
@@ -63,14 +63,15 @@ app.post("/api/posts", async(req, res) => {
 app.get("/edit/:id", async(req, res) => {
     try{
         const response = await axios.get(`${API_URL}/posts/${req.params.id}`);
-        res.render("/edit.ejs", {post : response.data});
+        console.log(response.data);
+        res.render("edit.ejs", {post : response.data});
 
     }catch(error){
         res.status(500).json({message : "Error updating post"})
     }
 })
 
-app.post("/posts/edit/:id", async(req, res) => {
+app.post("/api/posts/edit/:id", async(req, res) => {
     try{
     const response = await axios.patch(`${API_URL}/posts/${req.params.id}`, req.body);
     console.log(response.data)
