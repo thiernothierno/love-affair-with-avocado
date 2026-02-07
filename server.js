@@ -62,9 +62,9 @@ app.post("/api/posts", async(req, res) => {
 // Edit a post
 app.get("/edit/:id", async(req, res) => {
     try{
-        const response = await axios.get(`${API_URL}/posts/${req.params.id}`);
+        const response = await axios.patch(`${API_URL}/posts/${req.params.id}`);
         console.log(response.data);
-        res.render("edit.ejs", {post : response.data});
+        res.render("post.ejs", {post : response.data});
 
     }catch(error){
         res.status(500).json({message : "Error updating post"})
@@ -85,7 +85,7 @@ app.post("/api/posts/edit/:id", async(req, res) => {
 // delete post
 app.get("/api/posts/delete/:id", async(req, res) => {
     try{
-        const response = await axios.delete(`${API_URL}/posts/${req.params.id}`);
+        const response = await axios.delete(`${API_URL}/posts/${req.params.id}`);  
         res.redirect("/get-all-posts");
     }catch(error){
         res.status(500).json({message : "Error deleting post"})

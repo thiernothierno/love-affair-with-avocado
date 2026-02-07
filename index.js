@@ -65,7 +65,7 @@ const posts = [
         'name' : "Hady", 
         "email" : "thrndicko@gmail.com",
         "favorite_fruit" : "avocado",
-        "text" : "I love avocado because of it taste.",
+        "text" : "I love avocado because of it taste.",  
         "date" : new Date(),
     }
 ];
