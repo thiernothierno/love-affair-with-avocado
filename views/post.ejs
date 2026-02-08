@@ -5,17 +5,17 @@
     <input type="text" name="name" placeholder="name" class="feedback-input" autofocus value="<%=post.name%> ">
     <input type="text" name="email" placeholder="email"class="feedback-input" value="<%=post.email%>">
     <input type="text" name="favorite_fruit" placeholder="favorite fruit" class="feedback-input" value="<%=post.favorite_fruit%>">
-    <textarea name="text" class="feedback-input" placeholder="Comment"></textarea>
+    <textarea name="text" class="feedback-input" placeholder="Comment"><%=post.text%></textarea>
     <input type="submit" value="Submit" >    
 </form>
  
-<% } else {%>
 
+<% } else {%>
 <form action="/api/posts" method="post">
     <input type="text" name="name" placeholder="name" class="feedback-input" autofocus required>
     <input type="text" name="email" placeholder="email"class="feedback-input" required>
     <input type="text" name="favorite_fruit" placeholder="favorite fruit" class="feedback-input" required> 
-    <textarea name="text" class="feedback-input" placeholder="Tell us why you picked this fruit" ></textarea>
+    <textarea name="text" class="feedback-input" placeholder="Tell us why you picked this fruit" required></textarea>
     <input type="submit" value="Submit"> 
 </form>
 

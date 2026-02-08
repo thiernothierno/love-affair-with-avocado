@@ -133,10 +133,18 @@ th, td {
 
 /* About Page */
 
-.about-page p {
-  text-indent: 50px;
+.about-page {
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);      
 }
 
+.about-page h1 {
+  color:green;
+  font-size: 25px;
+}
 /* Contact Page */
 form {
   border-radius: 5px;

@@ -66,8 +66,11 @@ const posts = [
         "email" : "thrndicko@gmail.com",
         "favorite_fruit" : "avocado",
         "text" : "I love avocado because of it taste.",  
-        "date" : new Date(),
-    }
+        "date" : new Date().toLocaleDateString(),
+        "hour" : new Date().getHours(),
+        "minute" : new Date().getMinutes(),
+        "second" : new Date().getSeconds()
+     }
 ];
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));    
@@ -91,7 +94,10 @@ app.post("/posts", (req, res) => {
         email : data.email,
         favorite_fruit : data.favorite_fruit,
         text : data.text,
-        date : new Date(),
+        date : new Date().toLocaleDateString(),
+        hour : new Date().getHours(),
+        minute: new Date().getMinutes(),
+        second: new Date().getSeconds()
     }
 
     currentID = newID;
@@ -110,6 +116,7 @@ app.patch("/posts/:id", (req, res) => {
     if(req.body.name) data.name = req.body.name;
     if(req.body.email) data.email = req.body.email;
     if(req.body.favorite_fruit) data.favorite_fruit = req.body.favorite_fruit;
+    if(req.body.text) data.text = req.body.text;
     res.json(data);
 })
 
