@@ -94,7 +94,7 @@ app.post("/posts", (req, res) => {
         email : data.email,
         favorite_fruit : data.favorite_fruit,
         text : data.text,
-        date : new Date().toLocaleDateString(),
+        date : new Date().toLocaleDateString(),   
         hour : new Date().getHours(),
         minute: new Date().getMinutes(),
         second: new Date().getSeconds()

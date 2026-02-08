@@ -7,6 +7,17 @@ body{
 }
 
 /* Home Page */
+/* .left-side-image{
+ float: left;
+ top:0;
+
+}
+
+.tree {
+  background-color: white;
+  width: 200px;
+  height: 200px;
+} */
 .top-bar {
   position: relative;
   padding: 20px;
@@ -131,6 +142,10 @@ th, td {
   color:#45a049;
 }
 
+.bottom-right{
+  text-align: right;
+  vertical-align: bottom;
+}
 /* About Page */
 
 .about-page {
@@ -145,7 +160,17 @@ th, td {
   color:green;
   font-size: 25px;
 }
+
+
+.about-page p {
+  text-indent: 50px;
+}
 /* Contact Page */
+
+.contact_me {
+  color: white;
+  text-align: center;
+}
 form {
   border-radius: 5px;
   background-color: #f2f2f2;
