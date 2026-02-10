@@ -67,7 +67,7 @@ app.get("/edit/:id", async(req, res) => {
         res.render("post.ejs", {post : response.data});
 
     }catch(error){
-        res.status(500).json({message : "Error updating post"})
+        res.status(500).json({message : "Error updating post"})   
     }
 })
 
