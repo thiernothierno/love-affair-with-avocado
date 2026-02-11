@@ -39,13 +39,23 @@ app.get("/about", (req, res) =>{
 })
 
 // Route to render the Contact page
-app.get("/contact", (req, res) =>{
+app.get("/contact", (req, res) =>{  
     res.render("contact.ejs")
+})
+
+// login form
+app.get("/login", (req, res) => {
+    res.render("login.ejs")
+})
+
+// Registration form
+app.get("/register", (req, res) => {
+    res.render("register.ejs")
 })
 
 // Create a post 
 app.get("/create-post", (req, res) => {
-    res.render("post.ejs")  
+    res.render("login-register.ejs")  
 })
 
 app.post("/api/posts", async(req, res) => {
@@ -62,7 +72,7 @@ app.post("/api/posts", async(req, res) => {
 // Edit a post
 app.get("/edit/:id", async(req, res) => {
     try{
-        const response = await axios.patch(`${API_URL}/posts/${req.params.id}`);  
+        const response = await axios.patch(`${API_URL}/posts/${req.params.id}`);    
         console.log(response.data);
         res.render("post.ejs", {post : response.data});
 
@@ -73,7 +83,7 @@ app.get("/edit/:id", async(req, res) => {
 
 app.post("/api/posts/edit/:id", async(req, res) => {
     try{
-    const response = await axios.patch(`${API_URL}/posts/${req.params.id}`, req.body);
+    const response = await axios.patch(`${API_URL}/posts/${req.params.id}`, req.body);  
     console.log(response.data)
     res.redirect("/get-all-posts")
     } catch(error){

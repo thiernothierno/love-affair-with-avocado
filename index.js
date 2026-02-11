@@ -97,7 +97,7 @@ app.post("/posts", (req, res) => {
         date : new Date().toLocaleDateString(),   
         hour : new Date().getHours(),
         minute: new Date().getMinutes(),
-        second: new Date().getSeconds()
+        second: new Date().getSeconds(),
     }
 
     currentID = newID;
