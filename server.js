@@ -62,7 +62,7 @@ app.post("/api/posts", async(req, res) => {
 // Edit a post
 app.get("/edit/:id", async(req, res) => {
     try{
-        const response = await axios.patch(`${API_URL}/posts/${req.params.id}`);
+        const response = await axios.patch(`${API_URL}/posts/${req.params.id}`);  
         console.log(response.data);
         res.render("post.ejs", {post : response.data});
 
