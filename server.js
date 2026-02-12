@@ -4,7 +4,7 @@ import axios from "axios"
 import pg from "pg"
 import bcrypt from "bcrypt"
 import 'dotenv/config'
-import { use } from "react"
+
 
 
 const app = express();
@@ -42,6 +42,8 @@ app.get("/", async(req, res) => {
     }
 })
 
+
+
 // All posts 
 app.get("/get-all-posts", async(req, res) => {
     try {
@@ -68,14 +70,37 @@ app.get("/login", (req, res) => {
     res.render("login.ejs")
 })
 
-app.post("/login", (req, res) => {
+app.post("/login", async(req, res) => {
     const userEmail = req.body.email;
     const userPassword = req.body.password;
+    try{
+        const checkResult = await db.query("select * from post where email = $1", [email] );
+        if(checkResult.rows.length > 0){
+            const user = checkResult.rows[0];
+            const storePassword = user.password;
+            bcrypt.compare(storePassword, userPassword, (err, result)=>{
+                if(err){
+                   console.log("Error comparing password.", err)
+                }
+                else{
+                    if(result){
+                        // User is able to create and edit their post.
+                    }
+                    else{
+                        res.send("Incorrect password.")
+                    }
 
+                }
+            })
+
+        }else{
+            res.redirect("/register")
+        }
+
+    }catch(err){
+
+    }
 })
-
-
-
 
 
 // Registration form
@@ -87,18 +112,25 @@ app.get("/register", (req, res) => {
 app.post("/register", async(req, res)=> {
     const userEmail = req.body.email;
     const userPassword = req.body.password;
+    const repeatPassword = req.body.repeat-password;
     try{
         const result = await db.query("select * from post where email = $1", [userEmail]);
         if (result.rows.length > 0){
             res.send("Email already exist. Please try loggin in.")
         } else{
-            bcrypt.hash(userPassword, saltRounds, (err, hash)=>{
+            if(userPassword !== repeatPassword){
+                res.send("Password don't match. Try Again.")
+            } else{
+                bcrypt.hash(userPassword, saltRounds, (err, hash)=>{
                 if(err){
                     res.send("Error hashing the password :", err)
                 } else{
                     const newUser = db.query("insert into post (email, password) values ($1, $2)", [userEmail, hash])
                 }
             })
+
+            }
+            
         }
 
     }catch(err){
@@ -155,6 +187,7 @@ app.get("/api/posts/delete/:id", async(req, res) => {
         res.status(500).json({message : "Error deleting post"})
     }
 })
+
 
 app.listen(port, () => {
     console.log(`Backend Server Running on http://localhost:${port}`)
