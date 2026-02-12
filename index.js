@@ -1,5 +1,8 @@
 import express from "express"
 import bodyParser from "body-parser"
+import pg from "pg"
+import bcrypt from "bcrypt"
+
 
 // Note: https://codetofun.com/express/app-put/
 
@@ -85,7 +88,7 @@ app.get("/posts", (req, res) => {
 
 
 // Make a post
-app.post("/posts", (req, res) => {
+app.post("/posts", (req, res) => {  
     const newID = currentID += 1; 
     const data = req.body;
     const new_post = {
@@ -96,7 +99,7 @@ app.post("/posts", (req, res) => {
         text : data.text,
         date : new Date().toLocaleDateString(),   
         hour : new Date().getHours(),
-        minute: new Date().getMinutes(),
+        minute: new Date().getMinutes(),   
         second: new Date().getSeconds(),
     }
 

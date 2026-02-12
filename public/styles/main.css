@@ -222,14 +222,15 @@ input[type=submit]:hover {
   background-color: blue;
   border: none;
   color: white;
-  padding: 25px 42px;
+  padding: 20px 30px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 22px;
-  margin: 4px 2px;
+  margin: 3px 2px;
   cursor: pointer;
   border-radius: 4px;
+  float: none;
 }
 /* form {
   margin-top: 50px;

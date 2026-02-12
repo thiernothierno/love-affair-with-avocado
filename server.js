@@ -1,14 +1,34 @@
 import express from "express"
 import bodyParser from "body-parser"
 import axios from "axios"
+import pg from "pg"
+import bcrypt from "bcrypt"
+import 'dotenv/config'
+
 
 const app = express();
 const port = 3000;
 const API_URL = "http://localhost:4000";
 
+
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+
+
+
+
+const db = new pg.Client({
+    user : process.env.PG_USER,
+    host : process.env.PG_HOST,
+    database : process.env.PG_DATABASE,
+    password : process.env.PG_PASSWORD,
+    port : process.env.PG_PORT
+});
+
+
+db.connect();
+console.log(process.env.PG_PASSWORD)
 
 
 
@@ -49,7 +69,7 @@ app.get("/login", (req, res) => {
 })
 
 // Registration form
-app.get("/register", (req, res) => {
+app.get("/register", (req, res) => {  
     res.render("register.ejs")
 })
 
