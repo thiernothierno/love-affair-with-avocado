@@ -4,18 +4,18 @@ import axios from "axios"
 import pg from "pg"
 import bcrypt from "bcrypt"
 import 'dotenv/config'
+import { use } from "react"
 
 
 const app = express();
 const port = 3000;
 const API_URL = "http://localhost:4000";
+const saltRounds = 15;
 
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-
-
 
 
 const db = new pg.Client({
@@ -28,7 +28,7 @@ const db = new pg.Client({
 
 
 db.connect();
-console.log(process.env.PG_PASSWORD)
+
 
 
 
@@ -68,9 +68,43 @@ app.get("/login", (req, res) => {
     res.render("login.ejs")
 })
 
+app.post("/login", (req, res) => {
+    const userEmail = req.body.email;
+    const userPassword = req.body.password;
+
+})
+
+
+
+
+
 // Registration form
 app.get("/register", (req, res) => {  
     res.render("register.ejs")
+})
+
+// Adding new user into the database
+app.post("/register", async(req, res)=> {
+    const userEmail = req.body.email;
+    const userPassword = req.body.password;
+    try{
+        const result = await db.query("select * from post where email = $1", [userEmail]);
+        if (result.rows.length > 0){
+            res.send("Email already exist. Please try loggin in.")
+        } else{
+            bcrypt.hash(userPassword, saltRounds, (err, hash)=>{
+                if(err){
+                    res.send("Error hashing the password :", err)
+                } else{
+                    const newUser = db.query("insert into post (email, password) values ($1, $2)", [userEmail, hash])
+                }
+            })
+        }
+
+    }catch(err){
+        console.log(err);
+    }
+
 })
 
 // Create a post 
