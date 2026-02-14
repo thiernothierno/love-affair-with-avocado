@@ -1,7 +1,7 @@
 import express from "express"
 import bodyParser from "body-parser"
 import pg from "pg"
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt"   
 
 
 // Note: https://codetofun.com/express/app-put/
@@ -58,6 +58,8 @@ const avocado_quotes = ["Avocado provides healthy fats that support heart health
 "Balanced health feels achievable with avocado on the menu."
 ]
 
+
+const randomQuote = avocado_quotes[Math.floor(Math.random() * avocado_quotes.length)];
 
 const app = express();
 const port = 4000;

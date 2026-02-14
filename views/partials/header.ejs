@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/main.css">
+    
     <title>Avocado</title>
 </head>
 <body>
     <header class="top-bar">
         <div class="title">
             <h1>The Love Affair With Avocados</h1>
-            <p class="sub-title">Avocado isn’t just a fruit — it’s a lifestyle. <br>       
+            <p id = "quotes" class="sub-title">Avocado isn’t just a fruit — it’s a lifestyle. <br>       
                     From breakfast bowls to dinner plates, it rules them all.</p>
         </div>
         <div id="navigation">
@@ -22,7 +23,7 @@
                 <a href="/about">About</a>  
             </li>
             <li>
-                <a href="/contact">Contact</a>
+                <a href="/contact">Contact</a>   
             </li>
             <li>
                 <a href="/login">Login</a>
@@ -33,5 +34,13 @@
         </ul>
     </div>
     </header>
+    
+    <script> 
+       const newQuote = document.getElementById("quotes");
+
+        newQuote.addEventListener("mouseover", function(){
+            newQuote.innerHTML = "HELLO"
+        })
+    </script>
 </body>
 </html>

@@ -109,18 +109,23 @@ app.get("/register", (req, res) => {
 })
 
 // Adding new user into the database
-app.post("/register", async(req, res)=> {
-    const userEmail = req.body.email;
-    const userPassword = req.body.password;
-    const repeatPassword = req.body.repeat-password;
+app.post("/user-register", async(req, res)=> {
+    const userEmail = req.body['email'];
+    const userPassword = req.body['password'];
+    const repeatPassword = req.body['repeat_password'];
+    console.log(userPassword);
+    console.log(repeatPassword);
     try{
-        const result = await db.query("select * from post where email = $1", [userEmail]);
+        const result = await db.query("select * from post where email = $1", [userEmail]); 
         if (result.rows.length > 0){
             res.send("Email already exist. Please try loggin in.")
-        } else{
-            if(userPassword !== repeatPassword){
-                res.send("Password don't match. Try Again.")
-            } else{
+        } 
+        else
+        {
+            if(userPassword != repeatPassword){
+                res.send("Password don't match. Try Again.");
+            } 
+            else{
                 bcrypt.hash(userPassword, saltRounds, (err, hash)=>{
                 if(err){
                     res.send("Error hashing the password :", err)
