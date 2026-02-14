@@ -44,7 +44,18 @@ body{
   transition: color 1s;
 }
 
-.nav-bar{
+.left-bar{
+  position: absolute;
+  top: 20px;     
+  left: 20px;
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+} 
+
+.right-bar{
   position: absolute;
   top: 20px;     
   right: 20px;
@@ -55,9 +66,13 @@ body{
 
 } 
 
-.nav-bar li {
-margin-left: 50px;
+.left-bar li {
+margin-left: 60px;
 
+}
+
+.right-bar li {
+  margin-left: 50px;
 }
 
 a {
