@@ -1,4 +1,6 @@
- const avocado_quotes = ["Avocado provides healthy fats that support heart health and lasting energy.",
+ 
+    // List of avocado's quotes. 
+    const avocado_quotes = ["Avocado provides healthy fats that support heart health and lasting energy.",
         "Packed with nutrients, avocado helps nourish the body from the inside out.",
         "Avocado supports brain function with essential fatty acids.",
         "Rich in fiber, avocado promotes healthy digestion and fullness.",
@@ -50,14 +52,13 @@
         "Balanced health feels achievable with avocado on the menu."
         ]
 
-
+        // function to get a random quote from the list of quotes.
     function getQuote(){
-       
         const randomQuote = avocado_quotes[Math.floor(Math.random() * avocado_quotes.length)];
         document.getElementById("quotes").innerHTML = randomQuote;
     
     }
-
-        setInterval(getQuote, 5000)
+    // Display every 5 seconds a new quote from the list of quotes. 
+    setInterval(getQuote, 5000)
 
    

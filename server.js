@@ -10,7 +10,7 @@ import 'dotenv/config'
 const app = express();
 const port = 3000;
 const API_URL = "http://localhost:4000";
-const saltRounds = 15;
+const saltRounds = 5;
 
 
 app.use(express.static("public"));
@@ -70,21 +70,26 @@ app.get("/login", (req, res) => {
     res.render("login.ejs")
 })
 
-app.post("/login", async(req, res) => {
-    const userEmail = req.body.email;
-    const userPassword = req.body.password;
+app.post("/user-login", async(req, res) => {
+    const inputEmail = req.body.email;
+    const inputPassword = req.body.password;
+    console.log(inputPassword)
     try{
-        const checkResult = await db.query("select * from post where email = $1", [email] );
+        const checkResult = await db.query("select * from post where email = $1", [inputEmail] );
         if(checkResult.rows.length > 0){
             const user = checkResult.rows[0];
-            const storePassword = user.password;
-            bcrypt.compare(storePassword, userPassword, (err, result)=>{
+            console.log(user)
+            const storedPassword = user.password;
+            console.log(storedPassword.length)
+            const storedID = user.id;
+            bcrypt.compare(storedPassword, inputPassword, (err, result)=>{
+                console.log(result)
                 if(err){
                    console.log("Error comparing password.", err)
                 }
                 else{
                     if(result){
-                        // User is able to create and edit their post.
+                        res.render("share-see-post.ejs")
                     }
                     else{
                         res.send("Incorrect password.")
@@ -130,7 +135,8 @@ app.post("/user-register", async(req, res)=> {
                 if(err){
                     res.send("Error hashing the password :", err)
                 } else{
-                    const newUser = db.query("insert into post (email, password) values ($1, $2)", [userEmail, hash])
+                    const newUser = db.query("insert into post (email, password) values ($1, $2)", [userEmail, hash]);
+                    res.render("share-see-post.ejs")
                 }
             })
 
@@ -142,6 +148,11 @@ app.post("/user-register", async(req, res)=> {
         console.log(err);
     }
 
+})
+
+// logout 
+app.get("/logout", (req, res) => {
+    res.redirect("/")
 })
 
 // Create a post 
