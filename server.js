@@ -80,23 +80,26 @@ app.post("/user-login", async(req, res) => {
             const user = checkResult.rows[0];
             console.log(user)
             const storedPassword = user.password;
-            console.log(storedPassword.length)
+            console.log(storedPassword);
             const storedID = user.id;
-            bcrypt.compare(storedPassword, inputPassword, (err, result)=>{
-                console.log(result)
-                if(err){
-                   console.log("Error comparing password.", err)
-                }
-                else{
-                    if(result){
-                        res.render("share-see-post.ejs")
-                    }
-                    else{
-                        res.send("Incorrect password.")
-                    }
+            console.log(storedID)
+            const value = await bcrypt.compare(user.password, inputPassword);
+            console.log(value);
+            // bcrypt.compare(storedPassword, inputPassword, (err, result)=>{
+            //     console.log(result)
+            //     if(err){
+            //        console.log("Error comparing password.", err)
+            //     }
+            //     else{
+            //         if(result){
+            //             res.render("share-see-post.ejs")
+            //         }
+            //         else{
+            //             res.send("Incorrect password.")
+            //         }
 
-                }
-            })
+            //     }
+            // })
 
         }else{
             res.redirect("/register")
@@ -131,7 +134,7 @@ app.post("/user-register", async(req, res)=> {
                 res.send("Password don't match. Try Again.");
             } 
             else{
-                bcrypt.hash(userPassword, saltRounds, (err, hash)=>{
+                bcrypt.hash(userPassword, saltRounds, async (err, hash)=>{
                 if(err){
                     res.send("Error hashing the password :", err)
                 } else{
