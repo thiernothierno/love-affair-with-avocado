@@ -68,7 +68,6 @@ body{
 
 .left-bar li {
 margin-left: 60px;
-
 }
 
 .right-bar li {
@@ -100,6 +99,10 @@ img{
 }
 
 /* Footer Page */
+.post-nav-bar{
+  margin-top: 70px;
+  font-size: 25px;
+}
 .post-nav-bar ul{
   list-style-type: none;
   margin:0;

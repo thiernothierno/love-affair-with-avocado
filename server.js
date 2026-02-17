@@ -147,7 +147,7 @@ app.post("/user-register", async(req, res)=> {
             
         }
 
-    }catch(err){
+    }catch(err){ 
         console.log(err);
     }
 
