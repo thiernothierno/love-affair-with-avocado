@@ -30,10 +30,16 @@ const db = new pg.Client({
 db.connect();
 
 
+// Home Page 
+
+app.get("/", (req, res) => {
+    res.render("home.ejs")
+
+})
 
 
 // Rendering the home page
-app.get("/", async(req, res) => {
+app.get("/home", async(req, res) => {
     try{
     const response = await axios.get(`${API_URL}/posts`);
     res.render("index.ejs", {posts : response.data})
