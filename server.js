@@ -2,7 +2,7 @@ import express from "express"
 import bodyParser from "body-parser"
 import axios from "axios"
 import pg from "pg"
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt"  
 import 'dotenv/config'
 
 
@@ -160,7 +160,7 @@ app.get("/logout", (req, res) => {
 
 // Create a post 
 app.get("/create-post", (req, res) => {
-    res.render("login-register.ejs")  
+    res.render("post.ejs")  
 })
 
 app.post("/api/posts", async(req, res) => {
