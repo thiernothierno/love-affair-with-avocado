@@ -52,6 +52,15 @@
         "Balanced health feels achievable with avocado on the menu."
         ]
 
+        const fruits_images = [
+            "https://th.bing.com/th/id/OIP.DzzBtp9wRuY1VocmOurZ7gHaJE?w=152&h=187&c=7&r=0&o=7&dpr=1.1&pid=1.7&rm=3",
+            "https://th.bing.com/th/id/OIP.XprgHSCfPgHBpfQBBfAWqwHaFb?w=262&h=192&c=7&r=0&o=7&dpr=1.1&pid=1.7&rm=3",
+            "https://th.bing.com/th/id/OIP.k1bcs4IVQF6QM2TSpfpw9QHaFi?w=250&h=187&c=7&r=0&o=7&dpr=1.1&pid=1.7&rm=3",
+            
+
+
+        ]
+
         // function to get a random quote from the list of quotes.
     function getQuote(){
         const randomQuote = avocado_quotes[Math.floor(Math.random() * avocado_quotes.length)];
