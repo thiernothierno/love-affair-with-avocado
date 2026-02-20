@@ -93,7 +93,7 @@
 
     // Display every 5 seconds a new quote from the list of quotes. 
      
-     setInterval(getQuote, 5000)
+     setInterval(getQuote, 3000)
 
 
     // function to get an image from the list of images.

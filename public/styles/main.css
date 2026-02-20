@@ -1,23 +1,11 @@
 body{
     height: 100%;
-    background-color:darkolivegreen;
+    background-color:darkseagreen;
     margin: 0;
     font-size : 17px;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Home Page */
-/* .left-side-image{
- float: left;
- top:0;
-
-}
-
-.tree {
-  background-color: white;
-  width: 200px;
-  height: 200px;
-} */
 .top-bar {
   position: relative;
   padding: 20px;
@@ -27,6 +15,9 @@ body{
   text-align: center;
 }
 
+.title h1 {
+  color:red;
+}
 .title h1, .title p {
   margin:0;
 }
@@ -40,7 +31,7 @@ body{
 }
 
 .title p:hover {
-  color: rgb(88 199 250 / 100%);
+  color:darkblue;
   transition: color 1s;
 }
 
@@ -77,10 +68,11 @@ margin-left: 60px;
 a {
   text-decoration: none;
   color: white;
+  font-size: 25px;
 }
 
  a:hover{
-  color:black;
+  color:darkblue;
 }
 
 .sub-title {
@@ -110,9 +102,10 @@ img{
 }
 .post-nav-bar ul{
   list-style-type: none;
-  margin:0;
+  margin:40px;
   padding:0;
   text-align: center;
+  font-size: 25px;
 }
 
 .post-nav-bar ul li {
@@ -126,8 +119,9 @@ img{
 }
 
 #comment{
-  color:coral;
+  color:red;
   letter-spacing: 1px;
+  font-size: 25px;
 }
 
 /* ALL POST */
@@ -186,6 +180,8 @@ th, td {
   text-align: right;
   vertical-align: bottom;
 }
+
+
 /* About Page */
 
 .about-page {
@@ -247,7 +243,7 @@ input[type=submit]:hover {
 /* login page */
 
 .sign-in-form {
-  color: white;
+  color: darkblue;
   text-align: center;
 
 }
@@ -272,49 +268,3 @@ input[type=submit]:hover {
   border-radius: 4px;
   float: none;
 }
-/* form {
-  margin-top: 50px;
-}
-
-.feedback-input {
-  color:black;
-  font-weight: 500;
-  font-size: 18px;
-  border-radius: 5px;
-  line-height: 22px;
-  background-color: white;
-  border: 2px solid #3586ff;
-  transition: all 0.3s;
-  padding: 13px;
-  margin-bottom: 15px;
-  width: 50%;
-  box-sizing: border-box;
-  outline: 0;
-}
-.feedback-input:focus {
-  border: 2px solid #3586ff;
-}
-
-textarea {
-  height: 100px;
-  line-height: 150%;
-  resize: vertical;
-}
-
-[type="submit"] {
-  width: 15%;
-  background: #3586ff;
-  border-radius: 50%;
-  border: 0;
-  cursor: pointer;
-  color: white;
-  font-size: 24px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  transition: all 0.3s;
-  margin-top: -4px;
-  font-weight: 700;
-}
-[type="submit"]:hover {
-  background: #3586ff;
-} */
