@@ -92,20 +92,34 @@
     }
 
     // Display every 5 seconds a new quote from the list of quotes. 
-    setInterval(getQuote, 5000)
+     
+     setInterval(getQuote, 5000)
 
 
     // function to get an image from the list of images.
+      setInterval(getImage, 3000)
     function getImage(){
         const key = Object.keys(fruits_images)
-        const randomImage = key[Math.floor(Math.random() * key.length )];
-        document.getElementById("fruit-img").src = fruits_images[randomImage];
-        document.getElementById("fruit-name").innerHTML = randomImage;
+        const image_collections = document.getElementsByClassName("fruit-img");
+        const name_collections = document.getElementsByClassName("fruit-name");
+        for(let i=0; i <= 36; i++){
+            const randomImage = key[Math.floor(Math.random() * key.length )];
+            image_collections[i].src = fruits_images[randomImage];
+            name_collections[i].innerHTML = randomImage;
+            
+        }  
 
     }
-    getImage()
-    setInterval(getImage, 5000)
+   
 
+    getImage()
+  
+    
+  
+  
+   
+   
+    
     
 
     
