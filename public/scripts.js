@@ -102,7 +102,7 @@
         const key = Object.keys(fruits_images)
         const image_collections = document.getElementsByClassName("fruit-img");
         const name_collections = document.getElementsByClassName("fruit-name");
-        for(let i=0; i <= 36; i++){
+        for(let i=0; i <= 44; i++){
             const randomImage = key[Math.floor(Math.random() * key.length )];
             image_collections[i].src = fruits_images[randomImage];
             name_collections[i].innerHTML = randomImage;
