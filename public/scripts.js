@@ -97,7 +97,7 @@
 
 
     // function to get an image from the list of images.
-      setInterval(getImage, 3000)
+    //   setInterval(getImage, 3000)
     function getImage(){
         const key = Object.keys(fruits_images)
         const image_collections = document.getElementsByClassName("fruit-img");

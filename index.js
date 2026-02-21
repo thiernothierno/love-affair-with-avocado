@@ -24,7 +24,7 @@ const posts = [
      }
 ];
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }));    
+app.use(bodyParser.urlencoded({ extended: true }));      
 app.use(express.json());  
 
 let currentID = 1;
