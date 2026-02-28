@@ -12,6 +12,9 @@ const port = 3000;
 const API_URL = "http://localhost:4000";
 const saltRounds = 5;
 
+let userAccess = false
+
+
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -89,23 +92,21 @@ app.post("/user-login", async(req, res) => {
             console.log(storedPassword);
             const storedID = user.id;
             console.log(storedID)
-            const value = await bcrypt.compare(user.password, inputPassword);
-            console.log(value);
-            // bcrypt.compare(storedPassword, inputPassword, (err, result)=>{
-            //     console.log(result)
-            //     if(err){
-            //        console.log("Error comparing password.", err)
-            //     }
-            //     else{
-            //         if(result){
-            //             res.render("share-see-post.ejs")
-            //         }
-            //         else{
-            //             res.send("Incorrect password.")
-            //         }
+            bcrypt.compare(storedPassword, inputPassword, (err, result)=>{
+                console.log(result)
+                if(err){
+                   console.log("Error comparing password.", err)
+                }
+                else{
+                    if(result){
+                        res.render("share-see-post.ejs")
+                    }
+                    else{
+                        res.send("Incorrect password.")
+                    }
 
-            //     }
-            // })
+                }
+            })
 
         }else{
             res.redirect("/register")
@@ -132,7 +133,7 @@ app.post("/user-register", async(req, res)=> {
     try{
         const result = await db.query("select * from post where email = $1", [userEmail]); 
         if (result.rows.length > 0){
-            res.send("Email already exist. Please try loggin in.")
+            res.send("Email already exist. Please try loggin in.")  
         } 
         else
         {
@@ -145,7 +146,8 @@ app.post("/user-register", async(req, res)=> {
                     res.send("Error hashing the password :", err)
                 } else{
                     const newUser = db.query("insert into post (email, password) values ($1, $2)", [userEmail, hash]);
-                    res.render("share-see-post.ejs")
+                    res.render("share-see-post.ejs");
+                    userAccess = true;
                 }
             })
 
