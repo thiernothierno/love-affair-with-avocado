@@ -1,4 +1,6 @@
  
+    let date = new Date().getFullYear();
+
     // List of avocado's quotes. 
     const avocado_quotes = ["Avocado provides healthy fats that support heart health and lasting energy.",
         "Packed with nutrients, avocado helps nourish the body from the inside out.",
@@ -97,7 +99,7 @@
 
 
     // function to get an image from the list of images.
-    setInterval(getImage, 5000)
+    // setInterval(getImage, 5000)
     function getImage(){
         const key = Object.keys(fruits_images)
         const image_collections = document.getElementsByClassName("fruit-img");
@@ -108,6 +110,11 @@
             name_collections[i].innerHTML = randomImage;
             
         }  
+
+    }
+
+    function myFunction(){
+        alert("Image was clicked.")
 
     }
    

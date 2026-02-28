@@ -1,4 +1,4 @@
-<%- include("partials/header.ejs") %>
+<%- include("partials/loginHeader.ejs") %>
    
    <div class="articles">
          <% posts.forEach(post => { %>
@@ -12,7 +12,7 @@
 
                     </th>
                     <th>
-                        <h4><small><%= post.email %></small></h4>   
+                        <h4><small><%= post.email %></small></h4>     
                     </th>
                     <th>
                         <h4><small><%= post.favorite_fruit %></small></h4>  
