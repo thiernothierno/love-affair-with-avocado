@@ -95,11 +95,11 @@
 
     // Display every 5 seconds a new quote from the list of quotes. 
      
-     setInterval(getQuote, 3000)
+    //  setInterval(getQuote, 3000)
 
 
     // function to get an image from the list of images.
-    // setInterval(getImage, 5000)
+    setInterval(getImage, 5000)
     function getImage(){
         const key = Object.keys(fruits_images)
         const image_collections = document.getElementsByClassName("fruit-img");
@@ -114,12 +114,13 @@
     }
 
     function myFunction(){
-        alert("Image was clicked.")
-
+        const name = document.getElementById("name").innerHTML;
+        alert(name)
     }
-   
 
     getImage()
+    myFunction()
+   
   
     
   
