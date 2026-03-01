@@ -99,7 +99,7 @@
 
 
     // function to get an image from the list of images.
-    setInterval(getImage, 5000)
+    // setInterval(getImage, 5000)
     function getImage(){
         const key = Object.keys(fruits_images)
         const image_collections = document.getElementsByClassName("fruit-img");
@@ -114,12 +114,19 @@
     }
 
     function myFunction(){
-        const name = document.getElementById("name").innerHTML;
-        alert(name)
+        const NodeList = document.querySelectorAll(".clickable");
+        for(let i=0; i < NodeList.length; i++){
+            NodeList[i].addEventListener("click", function(){
+                alert(this.dataset.name)
+            })
+        }
     }
 
     getImage()
-    myFunction()
+
+    window.onload = myFunction
+   
+  
    
   
     
