@@ -40,6 +40,10 @@ app.get("/", (req, res) => {
 
 })
 
+app.get("/login-home", (req, res) => {
+    res.render("login_home.ejs")
+})
+
 
 // Rendering the home page
 app.get("/home", async(req, res) => {
@@ -162,7 +166,7 @@ app.post("/user-register", async(req, res)=> {
 })
 
 // logout 
-app.get("/logout", (req, res) => {
+app.get("/logout", (req, res) => {  
     res.redirect("/")
 })
 
