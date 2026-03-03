@@ -149,7 +149,7 @@ app.post("/user-register", async(req, res)=> {
                 } else{
                     const newUser = db.query("insert into post (email, password) values ($1, $2)", [userEmail, hash]);
                     res.render("share-see-post.ejs");
-                    userAccess = true;
+                    
                 }
             })
 
