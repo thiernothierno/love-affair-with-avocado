@@ -114,10 +114,12 @@
     }
 
     function myFunction(){
-        const NodeList = document.querySelectorAll(".clickable");
-        for(let i=0; i < NodeList.length; i++){
-            NodeList[i].addEventListener("click", function(){
+        const nodeList = document.querySelectorAll(".clickable");  
+        console.log(nodeList)
+        for(let i=0; i < nodeList.length; i++){
+            nodeList[i].addEventListener("click", function(){
                 alert(this.dataset.name)
+                console.log(this.dataset.name)
             })
         }
     }
