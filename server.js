@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
-const db = new pg.Client({
+const userDatabase = new pg.Client({
     user : process.env.PG_USER,
     host : process.env.PG_HOST,
     database : process.env.PG_DATABASE,
@@ -32,8 +32,10 @@ const db = new pg.Client({
 
 
 
-db.connect();
 
+userDatabase.connect();
+
+export const db = userDatabase
 
 // Home Page 
 
@@ -87,12 +89,11 @@ app.get("/login", (req, res) => {
 
 
 
-
 app.post("/user-login", async(req, res) => {
     const inputEmail = req.body.email;
     const inputPassword = req.body.password;
     try{
-        const checkResult = await db.query("select * from post where email = $1", [inputEmail] );
+        const checkResult = await db.query("select * from users where email = $1", [inputEmail] );
         if(checkResult.rows.length > 0){
             const user = checkResult.rows[0];
             console.log(user)
@@ -100,7 +101,6 @@ app.post("/user-login", async(req, res) => {
             const userID = user.id;
             userInfo(inputEmail, userID)
             bcrypt.compare(inputPassword, storedPassword,  (err, result)=>{
-                console.log(result)
                 if(err){
                    console.log("Error comparing password.", err)
                 }
@@ -136,7 +136,7 @@ app.post("/user-register", async(req, res)=> {
     const userPassword = req.body['password'];
     const repeatPassword = req.body['repeat_password']; 
     try{
-        const result = await db.query("select * from post where email = $1", [userEmail]); 
+        const result = await db.query("select * from users where email = $1", [userEmail]); 
         if (result.rows.length > 0){
             res.send("Email already exist. Please try loggin in.") 
         } 
@@ -150,7 +150,7 @@ app.post("/user-register", async(req, res)=> {
                 if(err){
                     res.send("Error hashing the password :", err)
                 } else{
-                    const newUser = db.query("insert into post (email, password) values ($1, $2)", [userEmail, hash]);
+                    const newUser = db.query("insert into users (email, password) values ($1, $2)", [userEmail, hash]);
                     res.redirect("/login")   
                     // res.render("share-see-post.ejs");
                     
@@ -200,6 +200,7 @@ app.get("/edit/:id", async(req, res) => {
     }
 })
 
+// Partially edit a post
 app.post("/api/posts/edit/:id", async(req, res) => {
     try{
     const response = await axios.patch(`${API_URL}/posts/${req.params.id}`, req.body);  
@@ -223,7 +224,7 @@ app.get("/api/posts/delete/:id", async(req, res) => {
 
 
 
-export const userDatabase = db;
+
 export const currentUser = "/user-login";
 
 

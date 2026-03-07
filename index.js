@@ -1,7 +1,9 @@
 import express from "express"
-import bodyParser from "body-parser"  
+import bodyParser from "body-parser" 
 
-import { userDatabase, currentUser } from "./server.js"
+import { db } from "./server.js";
+
+import { currentUser } from "./server.js"
 
 
 
@@ -12,19 +14,10 @@ import { userDatabase, currentUser } from "./server.js"
 const app = express();
 const port = 4000;
 
-// const result = userDatabase.query("select * from post");
-// console.log(result.rows[0]);
+// const result = db.query("select * from users");
+// console.log(result);
 
-let userEmail; 
-export function userInfo(email){
-    userEmail = email;
-    return userEmail
-}
-
-console.log("Current UserEmail is: ", userEmail)
-
-
-
+// Admin 
 const posts = [
     {
         'id' : 1, 
@@ -40,7 +33,45 @@ const posts = [
 ];
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));      
-app.use(express.json());  
+app.use(express.json()); 
+
+let EMAIL;
+let ID;
+export function userInfo(loginEmail, loginID){
+    EMAIL = loginEmail;
+    ID = loginID
+
+}
+
+
+
+//     // Make a post
+//     app.post("/posts", (req, res) => {  
+
+//         const newID = loginID; 
+//         const data = req.body;
+//         const new_post = {
+//             id : newID,
+//             name : data.name,
+//             email : loginEmail,
+//             favorite_fruit : data.favorite_fruit,
+//             text : data.text,
+//             date : new Date().toLocaleDateString(),   
+//             hour : new Date().getHours(),
+//             minute: new Date().getMinutes(),   
+//             second: new Date().getSeconds(),
+//         }
+//     posts.push(new_post)
+//     // console.log(posts)
+//     res.status(201).json(new_post)  
+
+// })
+    
+
+
+
+
+ 
 
 let currentID = 1;
 
@@ -49,30 +80,29 @@ app.get("/posts", (req, res) => {
     res.json(posts)
 })
 
+    // Make a post
+//     app.post("/posts", (req, res) => {  
 
-// Make a post
-app.post("/posts", (req, res) => {  
+//         const newID = currentID + 1; 
+//         const data = req.body;
+//         const new_post = {
+//             id : newID,
+//             name : data.name,
+//             email : data.email,
+//             favorite_fruit : data.favorite_fruit,
+//             text : data.text,
+//             date : new Date().toLocaleDateString(),   
+//             hour : new Date().getHours(),
+//             minute: new Date().getMinutes(),   
+//             second: new Date().getSeconds(),
+//         }
+//     currentID = newID
+//     posts.push(new_post)
+//     // console.log(posts)
+//     res.status(201).json(new_post)  
 
-    const newID = currentID += 1; 
-    const data = req.body;
-    const new_post = {
-        id : newID,
-        name : data.name,
-        email : data.email,
-        favorite_fruit : data.favorite_fruit,
-        text : data.text,
-        date : new Date().toLocaleDateString(),   
-        hour : new Date().getHours(),
-        minute: new Date().getMinutes(),   
-        second: new Date().getSeconds(),
-    }
+// })
 
-    currentID = newID;
-    posts.push(new_post)
-    // console.log(posts)
-    res.status(201).json(new_post)  
-
-})
 
 // Update a post 
 app.patch("/posts/:id", (req, res) => {

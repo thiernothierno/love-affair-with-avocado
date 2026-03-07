@@ -130,9 +130,7 @@
         }
     }
 
-    getImage()
-    
-
+getImage()
   myFunction()
    
   
