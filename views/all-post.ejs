@@ -5,11 +5,15 @@
         <a class="edit" href="/edit/<%=post.id%>">Edit</a>
         <a class="delete" href="/api/posts/delete/<%=post.id %>">Delete</a>  
         <div class="user-post">
+            <div class="title">
                 <span><h3><%= post.favorite_fruit %></h3></span>
-                <span><small><%= post.text %></small></span>
-                <span><h3><%= post.name %></h3></span>
+            </div>
+            <div class="comment">
+                <span><h4><%= post.text %></h4></span>
+                <span><small>By <%= post.name %></small></span>
                 <span><small><%= post.date %></small></span>
-            
+            </div>
+                     
         </div>       
            <!-- <table style="width: 40%;" class="post-table">
                 <tr>

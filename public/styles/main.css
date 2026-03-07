@@ -151,10 +151,23 @@ img{
 }
 
 .user-post{
-  background-color: white;
-  width: 200px;
-  margin-left: 10px;
+  background-color:darkgray;
+  padding:5px;
+  width: 30%;
+  text-align: center;
 }
+
+.user-post .title{
+   border: 1px solid #ccc;
+   background-color: white;
+}
+
+.user-post .comment{
+   border: 1px solid #ccc;
+   background-color: antiquewhite;
+   text-align: center;
+}
+
 
 /* .post-table th, td{
   border: 1px solid black;
