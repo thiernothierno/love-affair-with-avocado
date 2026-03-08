@@ -85,22 +85,31 @@ app.post("/user-login", async(req, res) => {
             const user = checkResult.rows[0];
             const storedPassword = user.password;
             const userID = user.id;
-            userInfo(inputEmail, userID)
-            bcrypt.compare(inputPassword, storedPassword,  (err, result)=>{
-                if(err){
-                   console.log("Error comparing password.", err)
-                }
-                else{
-                    if(result){
-                        res.render("share-see-post.ejs", {userID : userID, date: date})
-                    }
-                    else{
-                        res.send("Incorrect password.")
+            const match = await bcrypt.compare(inputPassword, storedPassword ) 
+            if (match){
+                res.render("share-see-post.ejs", {userID : userID})
+                await axios.post("http://localhost:4000/posts-id", {userID, userID});
+                
+            }
+             else{
+                res.send("Incorrect password.")
+            }
+            // ,  (err, result)=>
+            //     {
+            //     if(err){
+            //        console.log("Error comparing password.", err)
+            //     }
+            //     else{
+            //         if(result){
+            //             res.render("share-see-post.ejs", {userID : userID})
+            //         }
+            //         else{
+            //             res.send("Incorrect password.")
                         
-                    }
+            //         }
 
-                }
-            })
+            //     }
+            // })
 
         }else{
             res.redirect("/register")
@@ -187,7 +196,7 @@ app.get("/edit/:id", async(req, res) => {
     }
 })
 
-// Partially edit a post
+// // Partially edit a post
 app.post("/api/posts/edit/:id", async(req, res) => {
     try{
     const response = await axios.patch(`${API_URL}/posts/${req.params.id}`, req.body);  

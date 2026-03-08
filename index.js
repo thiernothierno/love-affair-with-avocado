@@ -1,6 +1,7 @@
 import express from "express"
 import bodyParser from "body-parser" 
 import 'dotenv/config'
+import session from "express-session"
 
 import userDatabase from "./userDatabase.js"
 import postDatabase from "./postDatabase.js"
@@ -20,7 +21,11 @@ export async function  userInfo(loginEmail, loginID){
 
 }
 
-
+app.use(session({
+  secret: "secret-key",
+  resave: false,
+  saveUninitialized: true
+}));
 
 // Admin 
 
@@ -49,13 +54,23 @@ app.get("/posts", (req, res) => {
     res.json(posts)
 })
 
+
+app.post("/posts-id", (req, res) => {
+    const id = req.body.userID;
+    console.log(id)
+    res.redirect("/posts")
+})
+
+
+
 // Make a post
 app.post("/posts", async (req, res) => {  
-    const resutl = await userDatabase.query("select * from users");
-    const userID = resutl.rows[0].id
+    // const userID = req.body.userID
+    // console.log(userID)
+    const id = req.session.id;
+    console.log(id)
 
-    // const newID = currentID + 1;
-    const newID = userID; 
+    const newID = currentID + 1;
     const data = req.body;
     const new_post = {
         id : newID,
@@ -77,22 +92,16 @@ res.status(201).json(new_post)
 
 // Update a post 
 app.patch("/posts/:id", async(req, res) => {
-    const resutl = await userDatabase.query("select * from users");
-    const user = resutl.rows[0].id;
     const userID = parseInt(req.params.id);
-    if(user === userID){
-        const data = posts.find((post) => post.id === userID);
-        if(!data) return res.status(404).json({message:"Post not found"});
+    const data = posts.find((post) => post.id === userID);
+    if(!data) return res.status(404).json({message:"Post not found"});
 
-        if(req.body.name) data.name = req.body.name;
-        if(req.body.email) data.email = req.body.email;
-        if(req.body.favorite_fruit) data.favorite_fruit = req.body.favorite_fruit;
-        if(req.body.text) data.text = req.body.text;  
-        res.json(data);
-    }
-    else{
-        res.send("You can only edit the post you made.")
-    }
+    if(req.body.name) data.name = req.body.name;
+    if(req.body.email) data.email = req.body.email;
+    if(req.body.favorite_fruit) data.favorite_fruit = req.body.favorite_fruit;
+    if(req.body.text) data.text = req.body.text;  
+    res.json(data);
+   
     
 })
 
