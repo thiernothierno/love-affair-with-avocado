@@ -12,7 +12,7 @@ import { currentUser } from "./server.js"
 const app = express();
 const port = 4000;
 
-
+let isLogin = false
 
 export async function  userInfo(loginEmail, loginID){
     const result = await userDatabase.query("select * from users where id = $1", [loginID]);
@@ -50,9 +50,12 @@ app.get("/posts", (req, res) => {
 })
 
 // Make a post
-app.post("/posts", (req, res) => {  
+app.post("/posts", async (req, res) => {  
+    const resutl = await userDatabase.query("select * from users");
+    const userID = resutl.rows[0].id
 
-    const newID = currentID + 1; 
+    // const newID = currentID + 1;
+    const newID = userID; 
     const data = req.body;
     const new_post = {
         id : newID,
@@ -65,7 +68,7 @@ app.post("/posts", (req, res) => {
         minute: new Date().getMinutes(),   
         second: new Date().getSeconds(),
     }
-currentID = newID
+// currentID = newID
 posts.push(new_post)
 res.status(201).json(new_post)  
 
@@ -73,16 +76,24 @@ res.status(201).json(new_post)
 
 
 // Update a post 
-app.patch("/posts/:id", (req, res) => {
+app.patch("/posts/:id", async(req, res) => {
+    const resutl = await userDatabase.query("select * from users");
+    const user = resutl.rows[0].id;
     const userID = parseInt(req.params.id);
-    const data = posts.find((post) => post.id === userID);
-    if(!data) return res.status(404).json({message:"Post not found"});
+    if(user === userID){
+        const data = posts.find((post) => post.id === userID);
+        if(!data) return res.status(404).json({message:"Post not found"});
 
-    if(req.body.name) data.name = req.body.name;
-    if(req.body.email) data.email = req.body.email;
-    if(req.body.favorite_fruit) data.favorite_fruit = req.body.favorite_fruit;
-    if(req.body.text) data.text = req.body.text;  
-    res.json(data);
+        if(req.body.name) data.name = req.body.name;
+        if(req.body.email) data.email = req.body.email;
+        if(req.body.favorite_fruit) data.favorite_fruit = req.body.favorite_fruit;
+        if(req.body.text) data.text = req.body.text;  
+        res.json(data);
+    }
+    else{
+        res.send("You can only edit the post you made.")
+    }
+    
 })
 
 

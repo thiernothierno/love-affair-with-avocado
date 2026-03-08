@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
-
+const date = new Date();
 
 // Home Page 
 
@@ -36,15 +36,15 @@ app.get("/login-home", (req, res) => {
 })
 
 
-// Rendering the home page
-app.get("/home", async(req, res) => {
-    try{
-    const response = await axios.get(`${API_URL}/posts`);
-    res.render("index.ejs", {posts : response.data})
-    } catch(error){
-        res.status(500).json({message:"Error fetching data"})
-    }
-})
+// // Rendering the home page
+// app.get("/home", async(req, res) => {
+//     try{
+//     const response = await axios.get(`${API_URL}/posts`);
+//     res.render("index.ejs", {posts : response.data})
+//     } catch(error){
+//         res.status(500).json({message:"Error fetching data"})
+//     }
+// })
 
 
 
@@ -92,7 +92,7 @@ app.post("/user-login", async(req, res) => {
                 }
                 else{
                     if(result){
-                        res.render("share-see-post.ejs", {userID : userID})
+                        res.render("share-see-post.ejs", {userID : userID, date: date})
                     }
                     else{
                         res.send("Incorrect password.")
