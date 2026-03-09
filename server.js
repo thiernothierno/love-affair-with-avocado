@@ -58,10 +58,10 @@ app.get("/login-home", (req, res) => {
 app.get("/get-all-posts", async(req, res) => {
     try {
         const response = await axios.get(`${API_URL}/posts`);
-        res.render("all-post.ejs", {posts : response.data})
+        return res.render("all-post.ejs", {posts : response.data})
 
     } catch(error){
-        res.status(500).json({message:"Error fetching data"});
+        return res.status(500).json({message:"Error fetching data"});
     }
 })
 
@@ -93,35 +93,19 @@ app.post("/user-login", async(req, res) => {
             const userID = user.id;
             const match = await bcrypt.compare(inputPassword, storedPassword ) 
             if (match){
-                res.render("share-see-post.ejs", {userID : userID})
+                
                 req.session.userID = userID;
                 req.session.role = user.role
                 console.log("Session : ", req.session.userID);
-                // await axios.post("http://localhost:4000/posts-id", {userID, userID});
+                return res.render("share-see-post.ejs", {userID : userID})
                 
             }
              else{
-                res.send("Incorrect password.")
+                return res.send("Incorrect password.")
             }
-            // ,  (err, result)=>
-            //     {
-            //     if(err){
-            //        console.log("Error comparing password.", err)
-            //     }
-            //     else{
-            //         if(result){
-            //             res.render("share-see-post.ejs", {userID : userID})
-            //         }
-            //         else{
-            //             res.send("Incorrect password.")
-                        
-            //         }
-
-            //     }
-            // })
 
         }else{
-            res.redirect("/register")
+            return res.redirect("/register")
         }
 
     }catch(err){
@@ -142,20 +126,20 @@ app.post("/user-register", async(req, res)=> {
     try{
         const result = await userDatabase.query("select * from users where email = $1", [userEmail]); 
         if (result.rows.length > 0){
-            res.send("Email already exist. Please try loggin in.") 
+            return res.send("Email already exist. Please try loggin in.") 
         } 
         else
         {
             if(userPassword != repeatPassword){
-                res.send("Password don't match. Try Again.");
+                return res.send("Password don't match. Try Again.");
             } 
             else{
                 bcrypt.hash(userPassword, saltRounds, async (err, hash)=>{
                 if(err){
-                    res.send("Error hashing the password :", err)
+                    return res.send("Error hashing the password :", err)
                 } else{
                     const newUser = userDatabase.query("insert into users (email, password) values ($1, $2)", [userEmail, hash]);
-                    res.redirect("/login")   
+                    return res.redirect("/login")   
                     // res.render("share-see-post.ejs");
                     
                 }
@@ -180,14 +164,14 @@ app.get("/logout", (req, res) => {
 // Create a post 
 app.get("/create-post", (req, res) => {
     if(!req.session.userID){
-        res.redirect("/user-login")
+        return res.redirect("/user-login")
     }
     res.render("post.ejs")  
 })
 
 app.post("/api/posts", async(req, res) => {
     if(!req.session.userID){
-        res.redirect("/user-login")
+        return res.redirect("/user-login")
     }
     const name = req.body.name;
     const email = req.body.email;
@@ -197,10 +181,10 @@ app.post("/api/posts", async(req, res) => {
     try{
         const response = await axios.post(`${API_URL}/posts`, {name : name, email : email, userID : id, favorite_fruit : favorite_fruit, text : text} );  
         console.log(response.data);
-        res.redirect("/get-all-posts");
+        return res.redirect("/get-all-posts");
         
     } catch(error){
-        res.status(500).json({message:"Error creating post."})
+        return res.status(500).json({message:"Error creating post."})
     }
 })
 
@@ -208,22 +192,22 @@ app.post("/api/posts", async(req, res) => {
 // Edit a post
 app.get("/edit/:id", async(req, res) => {
     if(!req.session.userID){
-        res.redirect("/user-login")
+       return res.redirect("/user-login")
     }
     try{
         const response = await axios.get(`${API_URL}/posts/${req.params.id}`, );    
         console.log(response.data);
-        res.render("post.ejs", {post : response.data});
+        return res.render("post.ejs", {post : response.data});
 
     }catch(error){
-        res.status(500).json({message : "Error updating post"})   
+       return res.status(500).json({message : "Error updating post"})   
     }
 })
 
 // // Partially edit a post
 app.post("/api/posts/edit/:id", async(req, res) => {
     if(!req.session.userID){
-        res.redirect("/user-login")
+        return res.redirect("/user-login")
     }
     const name = req.body.name;
     const email = req.body.email;
@@ -233,17 +217,20 @@ app.post("/api/posts/edit/:id", async(req, res) => {
     const role = req.session.role
     console.log("USERID_SERVER1:", req.session.userID)
     try{
-    const response = await axios.patch(`${API_URL}/posts/${req.params.id}`, {name: name, email:email, favorite_fruit:favorite_fruit, text:text, userID : userID, role : role});  
-    console.log(response.data)
-    res.redirect("/get-all-posts")
+        const response = await axios.patch(`${API_URL}/posts/${req.params.id}`, {name: name, email:email, favorite_fruit:favorite_fruit, text:text, userID : userID, role : role});  
+        console.log(response.data)
+        return res.redirect("/get-all-posts")
     } catch(error){
-        res.status(500).json({message: "Error updating post"})
+        return res.status(500).json({message: "Error updating post"})
     }
 })
 
 
 // delete post
 app.get("/api/posts/delete/:id", async(req, res) => {
+    if(!req.session.userID){
+        return res.redirect("/user-login")
+    }
     const userId = req.session.userID;
     const postId = req.params.id;
     const role = req.session.role
@@ -255,9 +242,9 @@ app.get("/api/posts/delete/:id", async(req, res) => {
                 role : role
             }
         });   
-        res.redirect("/get-all-posts");
+        return res.redirect("/get-all-posts");
     }catch(error){
-        res.status(500).json({message : "Error deleting post"})
+        return res.status(500).json({message : "Error deleting post"})
     }
 })
 

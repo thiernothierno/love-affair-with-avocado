@@ -84,6 +84,8 @@ app.post("/posts", async (req, res) => {
 
 })
 
+
+// Edit form
 app.get("/posts/:id", async(req, res) => {
 
     const postId = req.params.id;
@@ -102,7 +104,7 @@ app.patch("/posts/:id", async(req, res) => {
     // const postId = parseInt(req.params.id);
     const postId = req.params.id
     console.log("PostID", postId)
-    const {userID, name, email, favorite_fruit, text} = req.body;
+    const {userID, role, name, email, favorite_fruit, text} = req.body;
     try{
 
     const result = await postDatabase.query("select author_id from posts where id= $1", [postId]);
@@ -114,7 +116,7 @@ app.patch("/posts/:id", async(req, res) => {
     const ownerID = result.rows[0].author_id;
     console.log("OwnerID", ownerID);
     console.log("UserID", userID)
-    if(ownerID !== parseInt(userID)){
+    if(ownerID !== parseInt(userID) && role !== 'admin'){
         return res.status(403).send("Not authorized");
     }
 
@@ -125,11 +127,11 @@ app.patch("/posts/:id", async(req, res) => {
       [name, email, favorite_fruit, text, postId]
     );
 
-    res.json({ message: "Post updated" });
+    return res.json({ message: "Post updated" });
 
 }catch(err){
     console.log(err);
-    res.status(500).send("Error updating post");
+    return res.status(500).send("Error updating post");
 }
 
     
@@ -142,6 +144,9 @@ app.patch("/posts/:id", async(req, res) => {
 app.delete("/posts/:id", async(req, res) => {
     const postId = req.params.id;
     const userID = req.body.userID;
+    const role = req.body.role
+
+
     console.log("PostID", postId);
     console.log("UserId", userID)
    
@@ -152,14 +157,14 @@ app.delete("/posts/:id", async(req, res) => {
         }
         const ownerID = result.rows[0].author_id;
         console.log("ownerID", ownerID)
-        if(ownerID !== userID){
+        if(ownerID !== userID && role !== 'admin'){
             return res.status(403).send("Not authorized");
         }
         await postDatabase.query("delete from posts where id = $1", [postId])
-        res.json({ message: "Post deleted" });
+        return res.json({ message: "Post deleted" });
     } catch(err){
     console.log(err);
-    res.status(500).send("Server error");
+    return res.status(500).send("Server error");
   }
     
     
