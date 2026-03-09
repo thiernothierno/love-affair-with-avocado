@@ -3,7 +3,7 @@
    <div class="articles">
          <% posts.forEach(post => { %>
         <a class="edit" href="/edit/<%=post.id%>">Edit</a>
-        <a class="delete" href="/api/posts/delete/<%=post.id %>">Delete</a>  
+        <a class="delete" href="/api/posts/delete/<%=post.id %>">Delete</a>   
         <div class="user-post">
             <div class="title">
                 <span><h3><%= post.favorite_fruit %></h3></span>

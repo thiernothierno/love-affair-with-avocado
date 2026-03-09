@@ -67,11 +67,7 @@ app.post("/posts", async (req, res) => {
     posts.push(new_post)
     const result = await postDatabase.query("SELECT EXISTS(SELECT 1 FROM posts WHERE id = $1)", [userID]);
     console.log(result.rows[0]);
-    if(!result.rows[0].exits){
-        await postDatabase.query("insert into posts (id, name, email, favorite_fruit) values ($1, $2, $3, $4)", [userID, name, email, favorite_fruit])
-    }else{
-        
-    }
+    await postDatabase.query("insert into posts (name, email, favorite_fruit, author_id) values ($1, $2, $3, $4)", [name, email, favorite_fruit, userID])
    
     res.status(201).json(new_post)  
 
@@ -80,7 +76,22 @@ app.post("/posts", async (req, res) => {
 
 // Update a post 
 app.patch("/posts/:id", async(req, res) => {
-    const userID = parseInt(req.params.id);
+    // const postId = parseInt(req.params.id);
+    const postId = req.params.id
+    console.log("PostID", postId)
+    const {userID, name, email, favorite_fruit, text} = req.body;
+    const result = await postDatabase.query("select * from posts where id= $1", [postId]);
+    console.log("Database", result.rows[0])
+    if(result.rows.length === 0){
+        return res.status(404).json({message:"Post not found"});
+    }
+
+    const ownerID = result.rows.author_id;
+    console.log("OwnerID", ownerID);
+    console.log("UserID", userID)
+    if(ownerID !== userID){
+        return res.status(403).send("Not authorized");
+    }
     const data = posts.find((post) => post.id === userID);
     if(!data) return res.status(404).json({message:"Post not found"});
 
@@ -95,19 +106,43 @@ app.patch("/posts/:id", async(req, res) => {
 
 
 // Delete a post
-app.delete("/posts/:id", (req, res) => {
-    const userID = parseInt(req.params.id);
-    const searchIndex = posts.findIndex((post) => post.id === userID);
-    if(searchIndex === -1) return res.status(404).json({message : "Post not found."})
-    posts.splice(searchIndex, 1);
-    res.json({message : `Post with ID: ${userID} was successfully deleted.`})
+app.delete("/posts/:id", async(req, res) => {
+    const postId = req.params.id;
+    const userID = req.body.userID;
+    console.log("PostID", postId);
+    console.log("UserId", userID)
+   
+    try{
+        const result = await postDatabase.query("select author_id from posts where id = $1", [postId]);
+        if(result.rows.length === 0){
+            return res.status(404).json({message : "Post not found."})
+        }
+        const ownerID = result.rows[0].author_id;
+        console.log("ownerID", ownerID)
+        if(ownerID !== userID){
+            return res.status(403).send("Not authorized");
+        }
+        await postDatabase.query("delete from posts where id = $1", [postId])
+        res.json({ message: "Post deleted" });
+    } catch(err){
+    console.log(err);
+    res.status(500).send("Server error");
+  }
+    
+    
 })
 
 
 
 
-
-
+ // const postId = parseInt(req.params.id);
+    // console.log("User:", postId);
+    // // const userID = req.body.userID;
+    // // console.log("LOginID: ", userID)
+// const searchIndex = posts.findIndex((post) => post.id === userID);
+    // if(searchIndex === -1) return res.status(404).json({message : "Post not found."})
+    // posts.splice(searchIndex, 1);
+    // res.json({message : `Post with ID: ${userID} was successfully deleted.`})
 
 
 

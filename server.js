@@ -206,8 +206,11 @@ app.post("/api/posts", async(req, res) => {
 
 // Edit a post
 app.get("/edit/:id", async(req, res) => {
+    if(!req.session.userID){
+        res.redirect("/user-login")
+    }
     try{
-        const response = await axios.patch(`${API_URL}/posts/${req.params.id}`);    
+        const response = await axios.patch(`${API_URL}/posts/${req.params.id}`, );    
         console.log(response.data);
         res.render("post.ejs", {post : response.data});
 
@@ -218,8 +221,16 @@ app.get("/edit/:id", async(req, res) => {
 
 // // Partially edit a post
 app.post("/api/posts/edit/:id", async(req, res) => {
+    if(!req.session.userID){
+        res.redirect("/user-login")
+    }
+    const name = req.body.name;
+    const email = req.body.email;
+    const favorite_fruit = req.body.favorite_fruit;
+    const text = req.body.text;
+    const userID = req.session.userID
     try{
-    const response = await axios.patch(`${API_URL}/posts/${req.params.id}`, req.body);  
+    const response = await axios.patch(`${API_URL}/posts/${req.params.id}`, {name: name, email:email, favorite_fruit:favorite_fruit, text:text, userID : userID});  
     console.log(response.data)
     res.redirect("/get-all-posts")
     } catch(error){
@@ -230,8 +241,15 @@ app.post("/api/posts/edit/:id", async(req, res) => {
 
 // delete post
 app.get("/api/posts/delete/:id", async(req, res) => {
+    const userId = req.session.userID;
+    const postId = req.params.id;
     try{
-        const response = await axios.delete(`${API_URL}/posts/${req.params.id}`);  
+        const response = await axios.delete(`${API_URL}/posts/${req.params.id}`, {
+            data : {
+                userID : userId,
+                postId : postId
+            }
+        });   
         res.redirect("/get-all-posts");
     }catch(error){
         res.status(500).json({message : "Error deleting post"})
