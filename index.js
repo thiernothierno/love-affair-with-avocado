@@ -84,6 +84,18 @@ app.post("/posts", async (req, res) => {
 
 })
 
+app.get("/posts/:id", async(req, res) => {
+
+    const postId = req.params.id;
+
+    const result = await postDatabase.query(
+        "SELECT * FROM posts WHERE id=$1",
+        [postId]
+    );
+
+    res.json(result.rows[0]);
+
+});
 
 // Update a post 
 app.patch("/posts/:id", async(req, res) => {
@@ -93,16 +105,16 @@ app.patch("/posts/:id", async(req, res) => {
     const {userID, name, email, favorite_fruit, text} = req.body;
     try{
 
-    const result = await postDatabase.query("select * from posts where id= $1", [postId]);
+    const result = await postDatabase.query("select author_id from posts where id= $1", [postId]);
     console.log("Database", result.rows[0])
     if(result.rows.length === 0){
         return res.status(404).json({message:"Post not found"});
     }
 
-    const ownerID = result.rows.author_id;
+    const ownerID = result.rows[0].author_id;
     console.log("OwnerID", ownerID);
     console.log("UserID", userID)
-    if(ownerID !== userID){
+    if(ownerID !== parseInt(userID)){
         return res.status(403).send("Not authorized");
     }
 

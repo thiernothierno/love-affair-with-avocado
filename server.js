@@ -210,7 +210,7 @@ app.get("/edit/:id", async(req, res) => {
         res.redirect("/user-login")
     }
     try{
-        const response = await axios.patch(`${API_URL}/posts/${req.params.id}`, );    
+        const response = await axios.get(`${API_URL}/posts/${req.params.id}`, );    
         console.log(response.data);
         res.render("post.ejs", {post : response.data});
 
@@ -229,6 +229,7 @@ app.post("/api/posts/edit/:id", async(req, res) => {
     const favorite_fruit = req.body.favorite_fruit;
     const text = req.body.text;
     const userID = req.session.userID
+    console.log("USERID_SERVER1:", req.session.userID)
     try{
     const response = await axios.patch(`${API_URL}/posts/${req.params.id}`, {name: name, email:email, favorite_fruit:favorite_fruit, text:text, userID : userID});  
     console.log(response.data)
