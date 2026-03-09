@@ -27,49 +27,60 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));      
 app.use(express.json());
 
-const posts = [
-    {
-        'id' : 1, 
-        'name' : "Hady", 
-        "email" : "thrndicko@gmail.com",
-        "favorite_fruit" : "avocado",
-        "text" : "I love avocado because of it taste.",    
-        "date" : new Date().toLocaleDateString(),
-        "hour" : new Date().getHours(),
-        "minute" : new Date().getMinutes(),
-        "second" : new Date().getSeconds()
-     }
-]; 
+// const posts = [
+//     {
+//         'id' : 1, 
+//         'name' : "Hady", 
+//         "email" : "thrndicko@gmail.com",
+//         "favorite_fruit" : "avocado",
+//         "text" : "I love avocado because of it taste.",    
+//         "date" : new Date().toLocaleDateString(),
+//         "hour" : new Date().getHours(),
+//         "minute" : new Date().getMinutes(),
+//         "second" : new Date().getSeconds()
+//      }
+// ]; 
 
-let currentID = 1;
+// let currentID = 1;
+
+// const data = posts.find((post) => post.id === userID);
+//     if(!data) return res.status(404).json({message:"Post not found"});
+
+//     if(req.body.name) data.name = req.body.name;
+//     if(req.body.email) data.email = req.body.email;
+//     if(req.body.favorite_fruit) data.favorite_fruit = req.body.favorite_fruit;
+//     if(req.body.text) data.text = req.body.text;  
+//     res.json(data);
 
 // Get all post
-app.get("/posts", (req, res) => {
-    res.json(posts)
+app.get("/posts", async(req, res) => {
+    const posts = await postDatabase.query("select * from posts")
+    res.json(posts.rows)
 })
 
-
+   // const new_post = {
+    //     id : userID,
+    //     name : name,
+    //     email : email,
+    //     favorite_fruit : favorite_fruit,
+    //     text : text,
+    //     date : new Date().toLocaleDateString(),   
+    //     hour : new Date().getHours(),
+    //     minute: new Date().getMinutes(),   
+    //     second: new Date().getSeconds(),
+    // }
+    // posts.push(new_post)
+    //  res.status(201).json(new_post)  
 
 // Make a post
 app.post("/posts", async (req, res) => {  
     const {userID, name, email, favorite_fruit, text} = req.body;
-    const new_post = {
-        id : userID,
-        name : name,
-        email : email,
-        favorite_fruit : favorite_fruit,
-        text : text,
-        date : new Date().toLocaleDateString(),   
-        hour : new Date().getHours(),
-        minute: new Date().getMinutes(),   
-        second: new Date().getSeconds(),
-    }
-    posts.push(new_post)
+ 
     const result = await postDatabase.query("SELECT EXISTS(SELECT 1 FROM posts WHERE id = $1)", [userID]);
     console.log(result.rows[0]);
-    await postDatabase.query("insert into posts (name, email, favorite_fruit, author_id) values ($1, $2, $3, $4)", [name, email, favorite_fruit, userID])
-   
-    res.status(201).json(new_post)  
+    await postDatabase.query("insert into posts (name, email, favorite_fruit, author_id, text) values ($1, $2, $3, $4, $5)", [name, email, favorite_fruit, userID, text])
+
+    res.json({message: "Post created"});
 
 })
 
@@ -80,6 +91,8 @@ app.patch("/posts/:id", async(req, res) => {
     const postId = req.params.id
     console.log("PostID", postId)
     const {userID, name, email, favorite_fruit, text} = req.body;
+    try{
+
     const result = await postDatabase.query("select * from posts where id= $1", [postId]);
     console.log("Database", result.rows[0])
     if(result.rows.length === 0){
@@ -92,14 +105,22 @@ app.patch("/posts/:id", async(req, res) => {
     if(ownerID !== userID){
         return res.status(403).send("Not authorized");
     }
-    const data = posts.find((post) => post.id === userID);
-    if(!data) return res.status(404).json({message:"Post not found"});
 
-    if(req.body.name) data.name = req.body.name;
-    if(req.body.email) data.email = req.body.email;
-    if(req.body.favorite_fruit) data.favorite_fruit = req.body.favorite_fruit;
-    if(req.body.text) data.text = req.body.text;  
-    res.json(data);
+    await postDatabase.query(
+      `UPDATE posts
+       SET name=$1, email=$2, favorite_fruit=$3, text=$4
+       WHERE id=$5`,
+      [name, email, favorite_fruit, text, postId]
+    );
+
+    res.json({ message: "Post updated" });
+
+}catch(err){
+    console.log(err);
+    res.status(500).send("Error updating post");
+}
+
+    
    
     
 })
