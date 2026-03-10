@@ -54,24 +54,45 @@ app.use(express.json());
 
 // Tracking the name of all fruit posted
 const post = {}; 
-const result = await postDatabase.query("select * from posts");
-const fruits = result.rows;
-fruits.forEach(fruit => {
-    const key = fruit.favorite_fruit.toLowerCase()
-    if(key in post){
-        post[key] += 1;
-    }
-    else{ 
-        post[key] = 1;
-    }
-});
 
-console.log(post) 
+// function mostUpvoteFruit(){
+    // query the post database
+    const result = await postDatabase.query("select * from posts");
+    const fruits = result.rows;
+    // Add fruit name with a frequency of 1 if it does not exist in post,
+    // Otherwise, increment it frequency by 1.
+    fruits.forEach(fruit => {
+        const key = fruit.favorite_fruit.toLowerCase()
+        if(key in post){
+            post[key] += 1;
+        }
+        else{ 
+            post[key] = 1;
+        }
+    });
+
+    // Find the max value
+    const maxValue = Math.max(...Object.values(post));
+
+    // Get all keys with that max value
+    const keysWithMaxValue = Object.keys(post).filter(key => post[key] === maxValue);
+
+    // If only one key, return it as a string, otherwise return the array
+    const upvote_fruit = keysWithMaxValue.length === 1 ? keysWithMaxValue[0] : keysWithMaxValue;
+
+  
+// }
+
+// const result = mostUpvoteFruit()
 
 // Get all post
 app.get("/posts", async(req, res) => {
     const posts = await postDatabase.query("select * from posts");
-    res.json(posts.rows)
+    console.log("Most Upvote Fruit is: ", upvote_fruit)
+    res.json({
+        posts : posts.rows,
+        upvote_fruit : upvote_fruit
+    });
 
 })
 

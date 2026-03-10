@@ -154,6 +154,10 @@ img{
   margin-left:10px;
 }
 
+.fruit-with-most-vote {
+  text-align: center;
+  color:blue;
+}
 .post-content{
   margin-bottom: 15px;
 }

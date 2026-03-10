@@ -61,7 +61,9 @@ app.get("/get-all-posts", async(req, res) => {
         const userID = req.session.userID;
         const role = req.session.role;
         const response = await axios.get(`${API_URL}/posts`);
-        return res.render("all-post.ejs", {posts : response.data, userID : userID, role : role})
+        const posts = response.data.posts;
+        const upvote_fruit = response.data.upvote_fruit
+        return res.render("all-post.ejs", {posts : response.data.posts, upvote_fruit : response.data.upvote_fruit})
 
     } catch(error){
         return res.status(500).json({message:"Error fetching data"});
