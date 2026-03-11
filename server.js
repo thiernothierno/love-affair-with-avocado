@@ -61,8 +61,6 @@ app.get("/get-all-posts", async(req, res) => {
         const userID = req.session.userID;
         const role = req.session.role;
         const response = await axios.get(`${API_URL}/posts`);
-        const posts = response.data.posts;
-        const upvote_fruit = response.data.upvote_fruit
         return res.render("all-post.ejs", {posts : response.data.posts, upvote_fruit : response.data.upvote_fruit})
 
     } catch(error){
@@ -181,7 +179,7 @@ app.post("/api/posts", async(req, res) => {
     }
     const name = req.body.name;
     const email = req.body.email;
-    const favorite_fruit = req.body.favorite_fruit;
+    const favorite_fruit = req.body.favorite_fruit.trim().toLowerCase();
     const id = req.session.userID;
     const text = req.body.text;
     const role = req.session.role

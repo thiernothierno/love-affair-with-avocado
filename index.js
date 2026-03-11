@@ -55,70 +55,46 @@ app.use(express.json());
 // Tracking the name of all fruit posted
 const post = {}; 
 
-// function mostUpvoteFruit(){
-    // query the post database
-    const result = await postDatabase.query("select * from posts");
-    const fruits = result.rows;
-    // Add fruit name with a frequency of 1 if it does not exist in post,
-    // Otherwise, increment it frequency by 1.
-    fruits.forEach(fruit => {
-        const key = fruit.favorite_fruit.toLowerCase()
-        if(key in post){
-            post[key] += 1;
-        }
-        else{ 
-            post[key] = 1;
-        }
-    });
-
-    // Find the max value
-    const maxValue = Math.max(...Object.values(post));
-
-    // Get all keys with that max value
-    const keysWithMaxValue = Object.keys(post).filter(key => post[key] === maxValue);
-
-    // If only one key, return it as a string, otherwise return the array
-    const upvote_fruit = keysWithMaxValue.length === 1 ? keysWithMaxValue[0] : keysWithMaxValue;
-
-  
-// }
-
-// const result = mostUpvoteFruit()
-
 // Get all post
 app.get("/posts", async(req, res) => {
+    // query the post database to select ro
     const posts = await postDatabase.query("select * from posts");
-    console.log("Most Upvote Fruit is: ", upvote_fruit)
+    
+    const result = await postDatabase.query(`
+        SELECT favorite_fruit, COUNT(*) AS votes
+        FROM posts
+        GROUP BY favorite_fruit
+        ORDER BY votes DESC
+    `);
+
+    let upvote_fruit = null;
+
+    if(result.rows.length > 0){
+        const maxVotes = Number(result.rows[0].votes);
+
+        upvote_fruit = result.rows
+            .filter(row => Number(row.votes) === maxVotes)
+            .map(row => row.favorite_fruit);
+    }
+
+    console.log("Most Upvote Fruit is: ", upvote_fruit);
+
     res.json({
         posts : posts.rows,
         upvote_fruit : upvote_fruit
     });
 
 })
-
-
-
-   // const new_post = {
-    //     id : userID,
-    //     name : name,
-    //     email : email,
-    //     favorite_fruit : favorite_fruit,
-    //     text : text,
-    //     date : new Date().toLocaleDateString(),   
-    //     hour : new Date().getHours(),
-    //     minute: new Date().getMinutes(),   
-    //     second: new Date().getSeconds(),
-    // }
-    // posts.push(new_post)
-    //  res.status(201).json(new_post)  
+ 
 
 // Make a post
 app.post("/posts", async (req, res) => {  
     const {userID, name, email, favorite_fruit, text, role} = req.body;
  
-    const result = await postDatabase.query("SELECT EXISTS(SELECT 1 FROM posts WHERE id = $1)", [userID]);
-    console.log(result.rows[0]);
-    await postDatabase.query("insert into posts (name, email, favorite_fruit, author_id, text, role) values ($1, $2, $3, $4, $5, $6)", [name, email, favorite_fruit, userID, text, role])
+    // const result = await postDatabase.query("SELECT EXISTS(SELECT 1 FROM posts WHERE id = $1)", [userID]);
+    // console.log(result.rows[0]);
+    await postDatabase.query("insert into posts (name, email, favorite_fruit, author_id, text, role) values ($1, $2, $3, $4, $5, $6)", [name, email, favorite_fruit, userID, text, role]);
+  
 
     res.json({message: "Post created"});
 
