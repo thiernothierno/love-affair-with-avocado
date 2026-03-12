@@ -5,12 +5,8 @@
        
      
     </div>
-    <table>
         <div class="articles">
-           
             <% posts.forEach(post => { %>  
-                
-                <th>
                     <div class="post-content">
                         <a class="edit" href="/edit/<%=post.id%>">Edit</a>
                         <a class="delete" href="/api/posts/delete/<%=post.id %>">Delete</a>   
@@ -25,16 +21,11 @@
                                 <span><small><%= post.post_date %></small></span>
                             </div>
                         </div> 
-                    </div>
-                </th> 
-                 
-                   
+                    </div>     
             <% }) %>
 
-        
-          
         </div>
-    </table>
+
 
   
      <script src="/scripts.js"> </script> 

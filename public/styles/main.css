@@ -133,18 +133,18 @@ img{
 }
 
 /* ALL POST */
-.article {
-  column-count: 3;
-  column-gap: 24px;
-}
 
 .edit {
   background-color: blue;
   padding:5px;
 }
 
+.articles{
+  margin-left: 20px;
+}
+
 .articles a {
-  font-size: 20px;
+  font-size: 15px;
 }
 
 
@@ -167,7 +167,7 @@ img{
 .user-post{
   background-color:darkgray;  
   padding:5px;
-  width: 100%;
+  width: 20%;
   text-align: center;
 }
 
