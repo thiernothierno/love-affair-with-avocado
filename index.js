@@ -206,8 +206,6 @@ app.delete("/delete-user/:id", async(req, res)=>{
     }
 })
 
-
-
  // const postId = parseInt(req.params.id);
     // console.log("User:", postId);
     // // const userID = req.body.userID;

@@ -140,6 +140,11 @@
     }
 
 
+    // Return current year
+ 
+    document.getElementById("cyear").innerHTML = new Date().getFullYear();
+
+
     // document.getElementsById("fImage").addEventListener("click", function() {
     // window.location.href = "/create-post";
     // });

@@ -30,7 +30,6 @@ app.use(bodyParser.json());
 const date = new Date();
 
 // Home Page 
-
 app.get("/", (req, res) => {
     res.render("home.ejs")
 
@@ -208,8 +207,6 @@ app.post("/reset-password", async(req, res) => {
 
 })
 
-
-
 // Delete user 
 app.get("/delete-user/:id", async(req, res)=>{
     const role = req.session.role;
@@ -263,7 +260,7 @@ app.get("/edit/:id", async(req, res) => {
         return res.render("post.ejs", {post : response.data});
 
     }catch(error){
-       return res.status(500).json({message : "Error updating post"})   
+       return res.render("delete_error.ejs")  
     }
 })
 
@@ -285,7 +282,7 @@ app.post("/api/posts/edit/:id", async(req, res) => {
         console.log(response.data)
         return res.redirect("/get-all-posts")
     } catch(error){
-        return res.status(500).json({message: "Error updating post"})
+        return res.render("delete_error.ejs")
     }
 })
 
@@ -308,7 +305,6 @@ app.get("/api/posts/delete/:id", async(req, res) => {
         });   
         return res.redirect("/get-all-posts");
     }catch(error){
-        // return res.status(500).json({message : "Error deleting post"})
         return res.render("delete_error.ejs")
     }
 })
