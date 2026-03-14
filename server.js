@@ -98,7 +98,8 @@ app.post("/user-register", async(req, res)=> {
         else
         {
             if(userPassword != repeatPassword){
-                return res.send("Password don't match. Try Again.");
+                // return res.send("Password don't match. Try Again.");
+                return res.render("edit_error.ejs")
             } 
             else{
                 bcrypt.hash(userPassword, saltRounds, async (err, hash)=>{
@@ -177,13 +178,15 @@ app.post("/reset-password", async(req, res) => {
             const user = result.rows[0];
             const storedPassword = user.password;
              if(newPassword != repeatNewPassword){
-                return res.send("Password don't match. Try Again.");
+                return res.render("edit_error.ejs")
             } 
             else{
                 bcrypt.hash(newPassword, saltRounds, async (err, hash)=>{
                 if(err){
                     return res.send("Error hashing the password :", err)
                 } else{
+                    console.log("Old Password: ", storedPassword);
+                    console.log("New Password: ", hash)
                     await userDatabase.query(
                     `UPDATE users
                     SET password=$1
@@ -207,9 +210,11 @@ app.post("/reset-password", async(req, res) => {
 
 
 
-
-
-
+// Delete user 
+app.get("/delete-user/:id", async(req, res)=>{
+    const role = req.session.role;
+    const result = await axios.delete(`${API_URL}/delete-user/${req.params.id}`, {role : role})
+})
 
 
 // logout 

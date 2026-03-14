@@ -4,6 +4,7 @@ import 'dotenv/config'
 import session from "express-session"
 import postDatabase from "./postDatabase.js"
 import contactDatabase from "./contactDatabase.js"
+import userDatabase from "./userDatabase.js"
 
 
 // Note: https://codetofun.com/express/app-put/
@@ -169,12 +170,7 @@ app.patch("/posts/:id", async(req, res) => {
 app.delete("/posts/:id", async(req, res) => {
     const postId = req.params.id;
     const userID = req.body.userID;
-    const role = req.body.role
-
-
-    console.log("PostID", postId);
-    console.log("UserId", userID)
-   
+    const role = req.body.role;
     try{
         const result = await postDatabase.query("select author_id from posts where id = $1", [postId]);
         if(result.rows.length === 0){
@@ -195,6 +191,20 @@ app.delete("/posts/:id", async(req, res) => {
     
 })
 
+// Delete user
+app.delete("/delete-user/:id", async(req, res)=>{
+    const userId = req.params.id;
+    const role = req.body.role;
+    try{
+        if(role !== "admin"){
+            return res.status(403).send("Not authorized");
+        }
+        await userDatabase.query("delete from users where id=$1", [userId])
+
+    }catch(err){
+        return res.status(500).send("Server error");
+    }
+})
 
 
 
