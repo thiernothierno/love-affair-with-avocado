@@ -99,7 +99,7 @@ app.post("/user-register", async(req, res)=> {
         {
             if(userPassword != repeatPassword){
                 // return res.send("Password don't match. Try Again.");
-                return res.render("edit_error.ejs")
+                return res.render("regist_error.ejs")
             } 
             else{
                 bcrypt.hash(userPassword, saltRounds, async (err, hash)=>{
@@ -178,7 +178,7 @@ app.post("/reset-password", async(req, res) => {
             const user = result.rows[0];
             const storedPassword = user.password;
              if(newPassword != repeatNewPassword){
-                return res.render("edit_error.ejs")
+                return res.render("regist_error.ejs")
             } 
             else{
                 bcrypt.hash(newPassword, saltRounds, async (err, hash)=>{
